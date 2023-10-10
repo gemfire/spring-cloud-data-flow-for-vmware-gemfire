@@ -14,7 +14,7 @@
     <description>Geode Common Components</description>
 
     <properties>
-        <org-json.version>20200518</org-json.version>
+        <org-json.version>20230227</org-json.version>
     </properties>
 
     <dependencies>
