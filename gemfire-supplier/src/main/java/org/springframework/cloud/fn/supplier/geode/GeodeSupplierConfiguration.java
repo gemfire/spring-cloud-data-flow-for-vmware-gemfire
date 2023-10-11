@@ -45,7 +45,6 @@ import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.channel.FluxMessageChannel;
 import org.springframework.integration.core.MessageProducer;
 import org.springframework.integration.dsl.IntegrationFlow;
-import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.gemfire.inbound.CacheListeningMessageProducer;
 import org.springframework.integration.gemfire.inbound.ContinuousQueryMessageProducer;
 import org.springframework.integration.router.PayloadTypeRouter;
@@ -125,7 +124,7 @@ public class GeodeSupplierConfiguration {
 
 	@Bean
 	IntegrationFlow startFlow(MessageChannel routerChannel, PayloadTypeRouter payloadTypeRouter) {
-		return IntegrationFlows.from(routerChannel)
+		return IntegrationFlow.from(routerChannel)
 				.route(payloadTypeRouter)
 				.get();
 	}
@@ -138,7 +137,7 @@ public class GeodeSupplierConfiguration {
 	@Bean
 	IntegrationFlow convertToString(MessageChannel convertToStringChannel, FluxMessageChannel fluxChannel,
 			Function<PdxInstance, String> pdxToJson) {
-		return IntegrationFlows.from(convertToStringChannel)
+		return IntegrationFlow.from(convertToStringChannel)
 				.transform(pdxToJson)
 				.channel(fluxChannel)
 				.get();

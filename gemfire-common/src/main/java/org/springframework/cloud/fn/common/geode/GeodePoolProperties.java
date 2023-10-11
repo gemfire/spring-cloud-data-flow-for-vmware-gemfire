@@ -47,7 +47,7 @@ public class GeodePoolProperties {
 	}
 
 	/**
-	 * Specifies one or more Gemfire locator or server addresses formatted as [host]:[port].
+	 * Specifies one or more GemFire locator or server addresses formatted as [host]:[port].
 	 */
 	private InetSocketAddress[] hostAddresses = { new InetSocketAddress("localhost", 10334) };
 

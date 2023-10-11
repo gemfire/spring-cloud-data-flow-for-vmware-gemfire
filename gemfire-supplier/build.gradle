@@ -10,8 +10,8 @@ group = 'com.vmware.gemfire'
 version = '1.0-SNAPSHOT'
 
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 dependencyManagement {
     imports {
@@ -23,7 +23,7 @@ dependencyManagement {
 dependencies {
 
     implementation project(':gemfire-common')
-    implementation ("com.vmware.gemfire:spring-data-2.7-gemfire-10.0:$springDataGemfire") {
+    implementation ("com.vmware.gemfire:spring-data-3.0-gemfire-10.0:$springDataGemFire") {
         exclude group: "org.springframework"
         exclude module: "shiro-event"
         exclude module: "shiro-lang"
@@ -40,13 +40,11 @@ dependencies {
     compileOnly("com.vmware.gemfire:gemfire-cq:$gemfireVersion")
 
     implementation 'org.json:json:20200518'
-    implementation "com.vmware.gemfire:spring-integration-5.5-gemfire-10.0:${springIntegrationGemfire}"
+    implementation "com.vmware.gemfire:spring-integration-6.1-gemfire-10.0:${springIntegrationGemFire}"
 
-    implementation 'com.vmware.gemfire:spring-boot-2.7-gemfire-10.0:1.0.0'
-    implementation 'com.vmware.gemfire:spring-boot-logging-2.7-gemfire-10.0:1.0.0'
+    implementation "com.vmware.gemfire:spring-boot-3.0-gemfire-10.0:${springBootGemFire}"
+    implementation "com.vmware.gemfire:spring-boot-logging-3.0-gemfire-10.0:${springBootGemFire}"
     implementation 'org.projectlombok:lombok:1.18.28'
-
-//    implementation 'org.springframework.geode:spring-geode-starter-test'
 
     implementation 'javax.validation:validation-api:2.0.1.Final'
     implementation 'org.hibernate:hibernate-validator:6.2.5.Final'
@@ -57,7 +55,7 @@ dependencies {
         exclude module: "commons-logging"
     }
     testImplementation("com.vmware.gemfire:gemfire-cq:$gemfireVersion")
-    testImplementation "org.springframework.boot:spring-boot-starter-test:2.7.10"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
 
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'

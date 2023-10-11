@@ -21,7 +21,7 @@ import org.springframework.expression.Expression;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 /**
- * This represents the configuration properties for the Gemfire Supplier.
+ * This represents the configuration properties for the GemFire Supplier.
  *
  * @author David Turanski
  */
