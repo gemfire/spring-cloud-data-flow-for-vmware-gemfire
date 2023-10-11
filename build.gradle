@@ -8,6 +8,7 @@ buildscript {
 
 plugins {
   id 'org.springframework.boot' version "${springBootVersion}" apply false
+  id "io.spring.dependency-management" version "${springDependenciesManagement}" apply false
   id 'idea'
   id 'eclipse'
   id 'java'

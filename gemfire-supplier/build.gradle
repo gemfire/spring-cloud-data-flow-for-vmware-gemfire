@@ -3,6 +3,7 @@ plugins {
     id 'idea'
     id 'eclipse'
     id "io.freefair.lombok" version "8.0.1"
+    id "io.spring.dependency-management"
 }
 
 group = 'com.vmware.gemfire'
@@ -11,6 +12,13 @@ version = '1.0-SNAPSHOT'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+    }
+}
 
 dependencies {
 
