@@ -49,3 +49,7 @@ allprojects {
     resolutionStrategy.cacheChangingModulesFor 0, "minutes"
   }
 }
+
+test {
+  useJUnitPlatform()
+}

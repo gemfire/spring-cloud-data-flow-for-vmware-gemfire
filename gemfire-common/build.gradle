@@ -22,7 +22,7 @@ dependencyManagement {
 
 dependencies {
 
-    implementation ("com.vmware.gemfire:spring-data-2.7-gemfire-10.0:$springDataGemfire") {
+    implementation ("com.vmware.gemfire:spring-data-2.7-gemfire-9.15:$springDataGemfire") {
         exclude group: "org.springframework"
         exclude module: "shiro-event"
         exclude module: "shiro-lang"
@@ -33,16 +33,16 @@ dependencies {
         exclude module: "shiro-cache"
         exclude module: "commons-logging"
     }
-    compileOnly("com.vmware.gemfire:gemfire-core:$gemfireVersion") {
+    compileOnly("com.vmware.gemfire:geode-core:$gemfireVersion") {
         exclude module: "commons-logging"
     }
-    compileOnly("com.vmware.gemfire:gemfire-cq:$gemfireVersion")
+    compileOnly("com.vmware.gemfire:geode-cq:$gemfireVersion")
 
     implementation 'org.json:json:20200518'
-    implementation "com.vmware.gemfire:spring-integration-5.5-gemfire-10.0:${springIntegrationGemfire}"
+    implementation "com.vmware.gemfire:spring-integration-5.5-gemfire-9.15:${springIntegrationGemfire}"
 
-    implementation 'com.vmware.gemfire:spring-boot-2.7-gemfire-10.0:1.0.0'
-    implementation 'com.vmware.gemfire:spring-boot-logging-2.7-gemfire-10.0:1.0.0'
+    implementation 'com.vmware.gemfire:spring-boot-2.7-gemfire-9.15:1.1.2'
+    implementation 'com.vmware.gemfire:spring-boot-logging-2.7-gemfire-9.15:1.1.2'
     implementation 'org.projectlombok:lombok:1.18.28'
     implementation 'javax.validation:validation-api:2.0.1.Final'
 
