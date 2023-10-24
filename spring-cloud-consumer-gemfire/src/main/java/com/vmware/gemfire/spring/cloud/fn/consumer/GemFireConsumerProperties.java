@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.springframework.cloud.fn.consumer.geode;
+package com.vmware.gemfire.spring.cloud.fn.consumer;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -15,7 +15,7 @@ import org.springframework.validation.annotation.Validated;
  */
 @ConfigurationProperties("gemfire.consumer")
 @Validated
-public class GeodeConsumerProperties {
+public class GemFireConsumerProperties {
 
 	/**
 	 * SpEL expression to use as a cache key.
