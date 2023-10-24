@@ -1,0 +1,107 @@
+plugins {
+    id 'java'
+    id 'gemfire-repo-artifact-publishing'
+    id "io.spring.dependency-management"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+    }
+}
+
+group = parent.group
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+javadoc {
+    title = "Spring Cloud Dataflow ${getSpringCloudBaseVersion()} Starter for VMware GemFire ${getGemFireBaseVersion()} Java API Reference"
+    failOnError=false
+}
+
+project.ext.set("pomProjectLongName", "Spring Cloud Dataflow Starter for VMware GemFire")
+project.ext.set("pomProjectArtifactName", "spring-cloud-starter-${getSpringCloudBaseVersion()}-gemfire-${getGemFireBaseVersion()}")
+project.ext.set("pomProjectDescription", "Spring Cloud Dataflow Starter For VMware GemFire")
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(project(":spring-cloud-common-gemfire"))
+    implementation(project(":spring-cloud-consumer-gemfire"))
+    implementation(project(":spring-cloud-supplier-gemfire"))
+    implementation("org.springframework.cloud:spring-cloud-stream")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+        credentials {
+            username "$gemfireRepoUsername"
+            password "$gemfireRepoPassword"
+        }
+        url = uri("https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire")
+    }
+    def additionalMavenRepoURLs = project.ext.find('additionalMavenRepoURLs')
+    if (additionalMavenRepoURLs != null && !additionalMavenRepoURLs.isEmpty() && !additionalMavenRepoURLs.isBlank()) {
+        additionalMavenRepoURLs.split(',').each {
+            project.getRepositories()
+                    .maven(mavenRepository -> {
+                        mavenRepository.setUrl(uri(it.toString()))
+                    })
+        }
+    }
+}
+
+String getGemFireBaseVersion() {
+    return getBaseVersion(gemfireVersion)
+}
+
+String getSpringCloudBaseVersion() {
+    return getBaseVersion(springCloudVersion)
+}
+
+String getBaseVersion(String version) {
+    def split = "$version".split("\\.")
+    if (split.length < 2) {
+        throw new RuntimeException("version is malformed")
+    }
+    return "${split[0]}.${split[1]}"
+}
+
+String getSpringBootBaseVersion() {
+    return getBaseVersion(springBootVersion)
+}
+
+def exportedProjects= [
+        ":spring-cloud-common-gemfire",
+        ":spring-cloud-consumer-gemfire",
+        ":spring-cloud-supplier-gemfire",
+]
+
+tasks.register('combinedJavadoc', Javadoc)  {
+    source exportedProjects.collect { project(it).sourceSets.main.allJava }
+    title = "Spring Cloud Dataflow ${getSpringCloudBaseVersion()} for VMware GemFire ${getGemFireBaseVersion()} Java API Reference"
+    classpath = files(exportedProjects.collect {
+        project(it).sourceSets.main.compileClasspath
+    })
+    destinationDir = file("${buildDir}/docs/javadoc")
+}
+
+tasks.register('combinedJavadocJar', Jar) {
+    dependsOn combinedJavadoc
+    archiveClassifier = 'javadoc'
+    from combinedJavadoc.destinationDir
+}
+
+javadoc.dependsOn(combinedJavadoc)
