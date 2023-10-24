@@ -14,12 +14,12 @@ plugins {
   id 'java'
 }
 
-allprojects {
+subprojects {
 
   group = 'com.vmware.gemfire'
 
-  sourceCompatibility = '1.8'
-  targetCompatibility = '1.8'
+  sourceCompatibility = JavaVersion.VERSION_1_8
+  targetCompatibility = JavaVersion.VERSION_1_8
 
   repositories {
     mavenLocal()
