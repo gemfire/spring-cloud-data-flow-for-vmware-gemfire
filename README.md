@@ -11,11 +11,23 @@ You need to include this dependency into your project:
     <artifactId>spring-cloud-starter-2022.0-gemfire-10.0</artifactId>
     <version>{project-version}</version>
 </dependency>
+<dependency>
+    <groupId>com.vmware.gemfire</groupId>
+    <artifactId>gemfire-core</artifactId>
+    <version>10.0.1</version>
+</dependency>
+<dependency>
+    <groupId>com.vmware.gemfire</groupId>
+    <artifactId>gemfire-cq</artifactId>
+    <version>10.0.1</version>
+</dependency>
 ```
 
 **Gradle**
 ```groovy
 implementation "com.vmware.gemfire:spring-cloud-starter-2022.0-gemfire-10.0:{project-version}"
+implementation "com.vmware.gemfire:gemfire-core:10.0.1"
+implementation "com.vmware.gemfire:gemfire-cq:10.0.1"
 ```
 
 For more information on how to configure the project please refer to:
