@@ -1,10 +1,10 @@
-# Contributing to spring-integration-for-vmware-gemfire
+# Contributing to spring-cloud-data-flow-for-vmware-gemfire
 
 We welcome contributions from the community and first want to thank you for taking the time to contribute!
 
 Please familiarize yourself with the [Code of Conduct](https://github.com/vmware/.github/blob/main/CODE_OF_CONDUCT.md) before contributing.
 
-Before you start working with spring-data-for-vmware-gemfire, please read and sign our Contributor License Agreement [CLA](https://cla.vmware.com/cla/1/preview). If you wish to contribute code and you have not signed our contributor license agreement (CLA), our bot will prompt you to do so when you open a Pull Request. For any questions about the CLA process, please refer to our [FAQ]([https://cla.vmware.com/faq](https://cla.vmware.com/faq)).
+Before you start working with spring-cloud-data-flow-for-vmware-gemfire, please read and sign our Contributor License Agreement [CLA](https://cla.vmware.com/cla/1/preview). If you wish to contribute code and you have not signed our contributor license agreement (CLA), our bot will prompt you to do so when you open a Pull Request. For any questions about the CLA process, please refer to our [FAQ]([https://cla.vmware.com/faq](https://cla.vmware.com/faq)).
 
 ## Ways to contribute
 
@@ -20,7 +20,7 @@ We welcome many types of contributions and not all of them need a Pull request. 
 
 ## Getting started
 
-This project provides an integration between [VMware GemFire](https://tanzu.vmware.com/gemfire) and [Spring Cloud Dataflow](https://spring.io/projects/spring-cloud-dataflow).
+This project provides an integration between [VMware GemFire](https://tanzu.vmware.com/gemfire) and [Spring Cloud Dataflow](https://spring.io/projects/spring-cloud-dataflow) by implementing [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream).
 
 This project has a dependency on [VMware GemFire](https://tanzu.vmware.com/gemfire), which has the requirement that one has access to it, in order to build, run, develop, test it.
 Follow the following steps to gain access to the GemFire releases. [Obtaining VMware GemFire from a Maven Repository](https://docs.vmware.com/en/VMware-GemFire/10.0/gf/getting_started-installation-obtain_gemfire_maven.html)
@@ -72,6 +72,7 @@ The best way to reach us with a question when contributing is to ask on:
 
 ## Additional Resources
 
-Understanding [Spring Integration](https://spring.io/projects/spring-integration) and [Spring Cloud Dataflow](https://spring.io/projects/spring-cloud-dataflow)
-Knowledge of [VMware GemFire](https://tanzu.vmware.com/gemfire) is critical
+Understanding [Spring Integration](https://spring.io/projects/spring-integration), [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream) and [Spring Cloud Dataflow](https://spring.io/projects/spring-cloud-dataflow) is critical.
+
+Knowledge of [VMware GemFire](https://tanzu.vmware.com/gemfire) is preferred.
 

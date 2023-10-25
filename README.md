@@ -1,6 +1,7 @@
-## Spring Cloud Stream for VMware GemFire
+## Spring Cloud Dataflow for VMware GemFire
 
-This [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream) project provides `java.util.function.Consumer` and `java.util.function.Supplier` implementations for VMware GemFire.
+This project enables users to configure data streams for VMware GemFire for the [Spring Cloud Dataflow](https://spring.io/projects/spring-cloud-dataflow) environment by providing implementations for `java.util.function.Consumer` and `java.util.function.Supplier`. This is done by providing implementations of the [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream) project for VMware GemFire.
+
 
 You need to include this dependency into your project:
 
