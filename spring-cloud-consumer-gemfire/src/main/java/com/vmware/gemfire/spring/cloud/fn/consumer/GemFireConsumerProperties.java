@@ -13,7 +13,7 @@ import javax.validation.constraints.NotEmpty;
 /**
  * @author David Turanski
  */
-@ConfigurationProperties("gemfire.consumer")
+@ConfigurationProperties(prefix = "gemfire.consumer")
 @Validated
 public class GemFireConsumerProperties {
 

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+		 xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.vmware.gemfire.spring.cloud.stream.app</groupId>
+		<artifactId>apps</artifactId>
+		<version>1.0.0-build.9999</version>
+	</parent>
+
+	<groupId>com.vmware.gemfire.spring.cloud.stream.app</groupId>
+	<artifactId>gemfire-sink-kafka</artifactId>
+	<version>1.0.0-build.9999</version>
+	<name>gemfire-sink-kafka</name>
+	<description>Spring Cloud Stream Gemfire Sink Kafka Binder Application
+	</description>
+
+	<distributionManagement>
+		<repository>
+			<id>repo.spring.io</id>
+			<name>Spring Release Repository</name>
+			<url>https://repo.spring.io/libs-release-local</url>
+		</repository>
+		<snapshotRepository>
+			<id>repo.spring.io</id>
+			<name>Spring Snapshot Repository</name>
+			<url>https://repo.spring.io/libs-snapshot-local</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<properties>
+		<skipTests>true</skipTests>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- (begin) maven properties -->
+
+		<!-- (end) maven properties -->
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- (begin) managed dependencies -->
+
+			<dependency>
+              <groupId>org.springframework.cloud</groupId>
+              <artifactId>spring-cloud-function-dependencies</artifactId>
+              <version>3.2.5</version>
+              <type>pom</type>
+              <scope>import</scope>
+            </dependency>
+			<dependency>
+              <groupId>org.springframework.cloud</groupId>
+              <artifactId>spring-cloud-stream-dependencies</artifactId>
+              <version>3.2.4</version>
+              <type>pom</type>
+              <scope>import</scope>
+            </dependency>
+			<dependency>
+              <groupId>org.springframework.cloud</groupId>
+              <artifactId>spring-cloud-dependencies</artifactId>
+              <version>2021.0.3</version>
+              <type>pom</type>
+              <scope>import</scope>
+            </dependency>
+			<dependency>
+              <groupId>org.springframework.cloud.fn</groupId>
+              <artifactId>function-dependencies</artifactId>
+              <version>1.2.1</version>
+              <type>pom</type>
+              <scope>import</scope>
+            </dependency>
+			<dependency>
+              <groupId>com.wavefront</groupId>
+              <artifactId>wavefront-spring-boot-bom</artifactId>
+              <version>2.2.2</version>
+              <type>pom</type>
+              <scope>import</scope>
+            </dependency>
+			<!-- (end) managed dependencies -->
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- (begin) additional dependencies -->
+		<dependency>
+          <groupId>org.springframework.cloud</groupId>
+          <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+        </dependency>
+		<dependency>
+          <groupId>io.micrometer</groupId>
+          <artifactId>micrometer-registry-wavefront</artifactId>
+        </dependency>
+		<dependency>
+          <groupId>io.pivotal.spring.cloud</groupId>
+          <artifactId>spring-cloud-services-starter-config-client</artifactId>
+          <version>3.2.0.RELEASE</version>
+        </dependency>
+		<dependency>
+          <groupId>io.micrometer</groupId>
+          <artifactId>micrometer-registry-influx</artifactId>
+        </dependency>
+		<dependency>
+          <groupId>org.springframework.cloud.stream.app</groupId>
+          <artifactId>stream-applications-micrometer-common</artifactId>
+          <version>3.2.1</version>
+        </dependency>
+		<dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
+		<dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+		<dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+		<dependency>
+          <groupId>org.springframework.cloud.stream.app</groupId>
+          <artifactId>stream-applications-security-common</artifactId>
+          <version>3.2.1</version>
+        </dependency>
+		<dependency>
+          <groupId>io.micrometer</groupId>
+          <artifactId>micrometer-registry-datadog</artifactId>
+        </dependency>
+		<dependency>
+          <groupId>org.springframework.cloud</groupId>
+          <artifactId>spring-cloud-starter-sleuth</artifactId>
+        </dependency>
+		<dependency>
+          <groupId>io.micrometer.prometheus</groupId>
+          <artifactId>prometheus-rsocket-spring</artifactId>
+          <version>1.4.0</version>
+        </dependency>
+		<dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+		<dependency>
+          <groupId>org.springframework.cloud.stream.app</groupId>
+          <artifactId>stream-applications-postprocessor-common</artifactId>
+          <version>3.2.1</version>
+        </dependency>
+		<dependency>
+          <groupId>com.wavefront</groupId>
+          <artifactId>wavefront-spring-boot-starter</artifactId>
+        </dependency>
+		<dependency>
+          <groupId>org.springframework.cloud</groupId>
+          <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+		<dependency>
+          <groupId>io.micrometer</groupId>
+          <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+		<dependency>
+          <groupId>com.vmware.gemfire</groupId>
+          <artifactId>spring-cloud-consumer-2021.0-gemfire-9.15</artifactId>
+          <version>1.0.0-build.9999</version>
+        </dependency>
+		<dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+		<dependency>
+          <groupId>io.pivotal.cfenv</groupId>
+          <artifactId>java-cfenv-boot</artifactId>
+          <version>2.4.0</version>
+        </dependency>
+
+		<dependency>
+          <groupId>org.springframework.cloud</groupId>
+          <artifactId>spring-cloud-stream-binder-kafka</artifactId>
+        </dependency>
+		<!-- (end) additional dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<!-- (begin) additional repositories -->
+		<repository>
+              <id>gemfire-release-repo</id>
+              <name>Pivotal GemFire Release Repository</name>
+              <url>https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire</url>
+            </repository>
+
+		<!-- (end) additional repositories -->
+
+		<repository>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+		</repository>
+		<repository>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+		</pluginRepository>
+		<pluginRepository>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+		</pluginRepository>
+	</pluginRepositories>
+	<build>
+		<plugins>
+			<!-- (begin) additional plugins -->
+
+			<!-- (end) additional plugins -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<!--
+			 Use of properties-maven-plugin to load the encoded metadata properties created by the jib-maven-plugin
+			 Use: Use: ./mvnw clean install jib:dockerBuild or ./mvnw clean install jib:build
+			-->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>read-project-properties</goal>
+						</goals>
+						<configuration>
+							<files>
+								<file>
+									${project.build.outputDirectory}/META-INF/spring-configuration-metadata-encoded.properties
+								</file>
+							</files>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dataflow-apps-metadata-plugin</artifactId>
+				<version>1.0.7</version>
+				<configuration>
+					<storeFilteredMetadata>true</storeFilteredMetadata>
+					<metadataFilter>
+						<names>
+						</names>
+						<sourceTypes>
+							<filter>com.vmware.gemfire.spring.cloud.fn.consumer.GemFireConsumerProperties</filter>
+							<filter>com.vmware.gemfire.spring.cloud.fn.common.GemFireSslProperties</filter>
+							<filter>com.vmware.gemfire.spring.cloud.fn.common.GemFireRegionProperties</filter>
+							<filter>com.vmware.gemfire.spring.cloud.fn.common.GemFirePoolProperties</filter>
+							<filter>com.vmware.gemfire.spring.cloud.fn.common.GemFireSecurityProperties</filter>
+						</sourceTypes>
+					</metadataFilter>
+				</configuration>
+				<executions>
+					<execution>
+						<id>aggregate-metadata</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>aggregate-metadata</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<skipTests>${skipTests}</skipTests>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>javadoc</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<quiet>true</quiet>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

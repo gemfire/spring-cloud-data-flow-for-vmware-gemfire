@@ -17,7 +17,7 @@ import java.util.Properties;
  * Configuration properties for Geode username/password authentication.
  * @author David Turanski
  **/
-@ConfigurationProperties("gemfire.security")
+@ConfigurationProperties(prefix = "gemfire.security")
 public class GemFireSecurityProperties {
 
 	/**

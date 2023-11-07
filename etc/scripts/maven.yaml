@@ -1,0 +1,7 @@
+maven:
+  remote-repositories:
+    gemfireRepo:
+      url: "https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire"
+      auth:
+        username: "udo@vmware.com"
+        password: "%C!08Yo9iEUYZSgx"

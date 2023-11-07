@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) VMware, Inc. 2023. All rights reserved.
+  ~ SPDX-License-Identifier: Apache-2.0
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.vmware.gemfire</groupId>
+    <artifactId>spring-cloud-app-gemfire-source</artifactId>
+    <version>1.0.0-build.9999</version>
+
+    <parent>
+        <groupId>org.springframework.cloud.stream.app</groupId>
+        <artifactId>stream-applications-core</artifactId>
+        <version>3.2.1</version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <stream-apps-core.version>3.2.1</stream-apps-core.version>
+        <maven.version>3.9.2</maven.version>
+        <maven.plugin.version>3.9.0</maven.plugin.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.vmware.gemfire</groupId>
+            <artifactId>spring-cloud-supplier-2021.0-gemfire-9.15</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>javadoc</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <quiet>true</quiet>
+                    <doclint>syntax</doclint>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <threadCount>1</threadCount>
+                    <forkCount>1</forkCount>
+                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dataflow-apps-docs-plugin</artifactId>
+                <version>1.0.7</version>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dataflow-apps-generator-plugin</artifactId>
+                <version>1.0.7</version>
+                <configuration>
+                    <application>
+                        <name>gemfire</name>
+                        <type>source</type>
+                        <version>${project.version}</version>
+                        <configClass>com.vmware.gemfire.spring.cloud.fn.supplier.GemFireSupplierConfiguration.class
+                        </configClass>
+                        <functionDefinition>gemfireSupplier</functionDefinition>
+
+                        <maven>
+                            <repositories>
+                                <repository>
+                                    <id>gemfire-release-repo</id>
+                                    <name>Pivotal GemFire Release Repository</name>
+                                    <url>https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire</url>
+                                </repository>
+                            </repositories>
+                            <dependencies>
+                                <dependency>
+                                    <groupId>com.vmware.gemfire</groupId>
+                                    <artifactId>spring-cloud-supplier-2021.0-gemfire-9.15</artifactId>
+                                    <version>${project.version}</version>
+                                </dependency>
+                            </dependencies>
+                        </maven>
+                    </application>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>gemfire-release-repo</id>
+            <name>Pivotal GemFire Release Repository</name>
+            <url>https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire</url>
+        </repository>
+    </repositories>
+
+</project>

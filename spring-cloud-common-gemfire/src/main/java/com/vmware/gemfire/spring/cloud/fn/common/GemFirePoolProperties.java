@@ -16,7 +16,7 @@ import java.net.InetSocketAddress;
  *
  * @author David Turanski
  */
-@ConfigurationProperties("gemfire.pool")
+@ConfigurationProperties(prefix = "gemfire.pool")
 @Validated
 public class GemFirePoolProperties {
 

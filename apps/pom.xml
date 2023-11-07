@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) VMware, Inc. 2023. All rights reserved.
+  ~ SPDX-License-Identifier: Apache-2.0
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.7.17</version>
+		<relativePath></relativePath>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.vmware.gemfire.spring.cloud.stream.app</groupId>
+	<artifactId>apps</artifactId>
+	<version>1.0.0-build.9999</version>
+	<packaging>pom</packaging>
+
+	<name>GemFire Apps Modules</name>
+
+	<modules>
+		<module>gemfire-sink-kafka</module>
+		<module>gemfire-sink-rabbit</module>
+		<module>gemfire-source-kafka</module>
+		<module>gemfire-source-rabbit</module>
+	</modules>
+
+	<scm>
+		<connection>scm:git:git://github.com/spring-cloud/spring-cloud-stream-app-starters.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/spring-cloud/spring-cloud-stream-app-starters.git</developerConnection>
+		<url>https://github.com/spring-cloud/spring-cloud-stream-app-starters</url>
+	</scm>
+</project>

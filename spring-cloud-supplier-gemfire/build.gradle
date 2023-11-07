@@ -12,6 +12,12 @@ group = 'com.vmware.gemfire'
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
 java {
     withJavadocJar()
     withSourcesJar()
@@ -34,8 +40,9 @@ dependencyManagement {
 }
 
 dependencies {
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-    implementation project(':spring-cloud-common-gemfire')
+    api project(':spring-cloud-common-gemfire')
     implementation ("com.vmware.gemfire:spring-data-2.7-gemfire-${getGemFireBaseVersion()}:$springDataGemFire") {
         exclude group: "org.springframework"
         exclude module: "shiro-event"
@@ -47,10 +54,10 @@ dependencies {
         exclude module: "shiro-cache"
         exclude module: "commons-logging"
     }
-    compileOnly("com.vmware.gemfire:gemfire-core:$gemfireVersion") {
+    compileOnly("com.vmware.gemfire:geode-core:$gemfireVersion") {
         exclude module: "commons-logging"
     }
-    compileOnly("com.vmware.gemfire:gemfire-cq:$gemfireVersion")
+    compileOnly("com.vmware.gemfire:geode-cq:$gemfireVersion")
 
     implementation 'org.json:json:20200518'
     implementation "com.vmware.gemfire:spring-integration-5.5-gemfire-${getGemFireBaseVersion()}:${springIntegrationGemFire}"
@@ -64,10 +71,10 @@ dependencies {
 
     testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
 
-    testImplementation("com.vmware.gemfire:gemfire-core:$gemfireVersion") {
+    testImplementation("com.vmware.gemfire:geode-core:$gemfireVersion") {
         exclude module: "commons-logging"
     }
-    testImplementation("com.vmware.gemfire:gemfire-cq:$gemfireVersion")
+    testImplementation("com.vmware.gemfire:geode-cq:$gemfireVersion")
     testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
 
     testImplementation platform('org.junit:junit-bom:5.9.1')

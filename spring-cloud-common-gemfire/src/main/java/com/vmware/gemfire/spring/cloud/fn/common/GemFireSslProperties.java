@@ -18,7 +18,7 @@ import javax.validation.constraints.NotBlank;
  *
  * @author Christian Tzolov
  */
-@ConfigurationProperties("gemfire.security.ssl")
+@ConfigurationProperties(prefix = "gemfire.security.ssl")
 @Validated
 public class GemFireSslProperties {
 

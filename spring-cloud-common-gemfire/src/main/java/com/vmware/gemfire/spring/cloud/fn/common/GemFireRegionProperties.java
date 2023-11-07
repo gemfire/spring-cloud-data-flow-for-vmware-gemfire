@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
  * Region configuration properties.
  * @author David Turanski
  */
-@ConfigurationProperties("gemfire.region")
+@ConfigurationProperties(prefix = "gemfire.region")
 @Validated
 public class GemFireRegionProperties {
 	/**

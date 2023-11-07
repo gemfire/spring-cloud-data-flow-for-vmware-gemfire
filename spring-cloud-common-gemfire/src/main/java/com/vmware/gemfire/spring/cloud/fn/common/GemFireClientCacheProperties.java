@@ -13,7 +13,7 @@ import org.springframework.validation.annotation.Validated;
  *
  * @author Christian Tzolov
  */
-@ConfigurationProperties("gemfire.client")
+@ConfigurationProperties(prefix = "gemfire.client")
 @Validated
 public class GemFireClientCacheProperties {
 

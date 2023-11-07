@@ -32,9 +32,9 @@ publishing {
                     providerAsElement.firstChild)
           }
           scm {
-            connection = 'scm:git:https://github.com/gemfire/spring-integration-for-vmware-gemfire.git'
-            developerConnection = 'scm:git:https://github.com/gemfire/spring-integration-for-vmware-gemfire.git'
-            url = 'https://github.com/gemfire/spring-integration-for-vmware-gemfire'
+            connection = 'scm:git:https://github.com/gemfire/spring-cloud-data-flow-for-vmware-gemfire'
+            developerConnection = 'scm:git:https://github.com/gemfire/spring-cloud-data-flow-for-vmware-gemfire'
+            url = 'https://github.com/gemfire/spring-cloud-data-flow-for-vmware-gemfire'
           }
         }
       }

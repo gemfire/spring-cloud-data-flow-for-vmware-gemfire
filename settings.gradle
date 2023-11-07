@@ -7,4 +7,3 @@ include 'spring-cloud-common-gemfire'
 include 'spring-cloud-consumer-gemfire'
 include 'spring-cloud-supplier-gemfire'
 include 'spring-cloud-starter-gemfire'
-

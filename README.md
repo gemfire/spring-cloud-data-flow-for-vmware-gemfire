@@ -14,12 +14,12 @@ You need to include this dependency into your project:
 </dependency>
 <dependency>
     <groupId>com.vmware.gemfire</groupId>
-    <artifactId>gemfire-core</artifactId>
+    <artifactId>geode-core</artifactId>
     <version>9.15.9</version>
 </dependency>
 <dependency>
     <groupId>com.vmware.gemfire</groupId>
-    <artifactId>gemfire-cq</artifactId>
+    <artifactId>geode-cq</artifactId>
     <version>9.15.9</version>
 </dependency>
 ```
@@ -27,8 +27,8 @@ You need to include this dependency into your project:
 **Gradle**
 ```groovy
 implementation "com.vmware.gemfire:spring-cloud-starter-2021.0-gemfire-9.15:{project-version}"
-implementation "com.vmware.gemfire:gemfire-core:9.15.9"
-implementation "com.vmware.gemfire:gemfire-cq:9.15.9"
+implementation "com.vmware.gemfire:geode-core:9.15.9"
+implementation "com.vmware.gemfire:geode-cq:9.15.9"
 ```
 
 For more information on how to configure the project please refer to:
