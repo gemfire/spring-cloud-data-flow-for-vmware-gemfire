@@ -13,13 +13,6 @@
     <artifactId>spring-cloud-app-gemfire-source</artifactId>
     <version>1.0.0-build.9999</version>
 
-    <parent>
-        <groupId>org.springframework.cloud.stream.app</groupId>
-        <artifactId>stream-applications-core</artifactId>
-        <version>3.2.1</version>
-        <relativePath/>
-    </parent>
-
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
@@ -29,10 +22,41 @@
         <maven.plugin.version>3.9.0</maven.plugin.version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud.stream.app</groupId>
+                <artifactId>stream-applications-core</artifactId>
+                <version>3.2.1</version>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
+
     <dependencies>
+        <dependency>
+            <groupId>com.vmware.gemfire</groupId>
+            <artifactId>gemfire-testcontainers</artifactId>
+            <version>1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.vmware.gemfire</groupId>
+            <artifactId>geode-core</artifactId>
+            <version>9.15.8</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.vmware.gemfire</groupId>
+            <artifactId>geode-cq</artifactId>
+            <version>9.15.8</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
+            <version>2.7.17</version>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -40,6 +64,26 @@
             <artifactId>spring-cloud-supplier-2021.0-gemfire-9.15</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>2.7.17</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream-binder-test</artifactId>
+            <version>3.2.9</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream</artifactId>
+            <version>3.2.9</version>
+            <classifier>test-binder</classifier>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

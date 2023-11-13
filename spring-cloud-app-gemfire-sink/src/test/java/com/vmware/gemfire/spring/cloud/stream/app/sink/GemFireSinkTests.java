@@ -1,22 +1,13 @@
 /*
- * Copyright 2020-2020 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) VMware, Inc. 2023. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.springframework.cloud.stream.app.sink.geode;
+package com.vmware.gemfire.spring.cloud.stream.app.sink;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vmware.gemfire.spring.cloud.fn.consumer.GemFireConsumerConfiguration;
+import com.vmware.gemfire.testcontainers.GemFireClusterContainer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,12 +19,9 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
-import org.springframework.cloud.fn.consumer.geode.GeodeConsumerConfiguration;
-import org.springframework.cloud.stream.app.sink.geodeserver.GeodeServerTestConfiguration;
 import org.springframework.cloud.stream.binder.test.InputDestination;
 import org.springframework.cloud.stream.binder.test.TestChannelBinderConfiguration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.gemfire.tests.integration.ForkingClientServerIntegrationTestsSupport;
 import org.springframework.messaging.support.GenericMessage;
 
 import java.io.IOException;
@@ -41,38 +29,44 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Tag("integration")
-public class GeodeSinkTests {
+public class GemFireSinkTests {
 
 	private static ApplicationContextRunner applicationContextRunner;
+
+	private static GemFireClusterContainer gemFireClusterContainer;
 
 	private ObjectMapper objectMapper = new ObjectMapper();
 
 	@BeforeAll
 	static void setup() throws IOException {
-		ForkingClientServerIntegrationTestsSupport.startGemFireServer(
-				GeodeServerTestConfiguration.class);
+		gemFireClusterContainer = new GemFireClusterContainer(1, "gemfire/gemfire:9.15.8");
+
+		gemFireClusterContainer.acceptLicense().start();
+
+		gemFireClusterContainer.gfsh(
+				false,
+				"create region --name=Stocks --type=REPLICATE");
 
 		applicationContextRunner = new ApplicationContextRunner()
 				.withUserConfiguration(
-						TestChannelBinderConfiguration.getCompleteConfiguration(GeodeSinkTestApplication.class));
+						TestChannelBinderConfiguration.getCompleteConfiguration(GemFireSinkTestApplication.class));
 	}
 
 	@AfterAll
 	static void stopServer() {
-		ForkingClientServerIntegrationTestsSupport.stopGemFireServer();
-		ForkingClientServerIntegrationTestsSupport.clearCacheServerPortAndPoolPortProperties();
+		gemFireClusterContainer.close();
 	}
 
 	@Test
 	void consumeWithJsonEnabled() {
 		applicationContextRunner
 				.withPropertyValues(
-						"spring.cloud.function.definition=geodeConsumer",
-						"geode.region.regionName=Stocks",
-						"geode.consumer.json=true",
-						"geode.consumer.key-expression=payload.getField('symbol')",
-						"geode.pool.connectType=server",
-						"geode.pool.hostAddresses=" + "localhost:" + System.getProperty("spring.data.gemfire.cache.server.port"))
+						"spring.cloud.function.definition=gemfireConsumer",
+						"gemfire.region.regionName=Stocks",
+						"gemfire.consumer.json=true",
+						"gemfire.consumer.key-expression=payload.getField('symbol')",
+						"gemfire.pool.connectType=locator",
+						"gemfire.pool.hostAddresses=" + gemFireClusterContainer.getHost()+":" + gemFireClusterContainer.getLocatorPort())
 				.run(context -> {
 					InputDestination inputDestination = context.getBean(InputDestination.class);
 
@@ -90,11 +84,11 @@ public class GeodeSinkTests {
 	void consumeWithoutJsonEnabled() {
 		applicationContextRunner
 				.withPropertyValues(
-						"spring.cloud.function.definition=geodeConsumer",
-						"geode.region.regionName=Stocks",
-						"geode.consumer.key-expression='key'",
-						"geode.pool.connectType=server",
-						"geode.pool.hostAddresses=" + "localhost:" + System.getProperty("spring.data.gemfire.cache.server.port"))
+						"spring.cloud.function.definition=gemfireConsumer",
+						"gemfire.region.regionName=Stocks",
+						"gemfire.consumer.key-expression='key'",
+						"gemfire.pool.connectType=locator",
+						"gemfire.pool.hostAddresses=" + gemFireClusterContainer.getHost()+":" + gemFireClusterContainer.getLocatorPort())
 				.run(context -> {
 					InputDestination inputDestination = context.getBean(InputDestination.class);
 					inputDestination.send(new GenericMessage<>("value"));
@@ -116,8 +110,8 @@ public class GeodeSinkTests {
 	}
 
 	@SpringBootApplication
-	@Import(GeodeConsumerConfiguration.class)
-	static class GeodeSinkTestApplication {
+	@Import(GemFireConsumerConfiguration.class)
+	static class GemFireSinkTestApplication {
 
 	}
 }

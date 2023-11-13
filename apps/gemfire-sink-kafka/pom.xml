@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) VMware, Inc. 2023. All rights reserved.
+  ~ SPDX-License-Identifier: Apache-2.0
+  -->
+
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 		 xmlns="http://maven.apache.org/POM/4.0.0"
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.vmware.gemfire.spring.cloud.stream.app</groupId>
+		<groupId>com.vmware.gemfire.spring.cloud.stream</groupId>
 		<artifactId>apps</artifactId>
 		<version>1.0.0-build.9999</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>com.vmware.gemfire.spring.cloud.stream.app</groupId>
@@ -40,6 +46,11 @@
 	<dependencyManagement>
 		<dependencies>
 			<!-- (begin) managed dependencies -->
+			<dependency>
+				<groupId>org.testcontainers</groupId>
+				<artifactId>testcontainers-bom</artifactId>
+				<version>1.18.3</version>
+			</dependency>
 
 			<dependency>
               <groupId>org.springframework.cloud</groupId>
@@ -107,6 +118,7 @@
 		<dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-configuration-processor</artifactId>
+			<version>2.7.17</version>
         </dependency>
 		<dependency>
           <groupId>org.springframework.boot</groupId>
@@ -156,11 +168,6 @@
           <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
 		<dependency>
-          <groupId>com.vmware.gemfire</groupId>
-          <artifactId>spring-cloud-consumer-2021.0-gemfire-9.15</artifactId>
-          <version>1.0.0-build.9999</version>
-        </dependency>
-		<dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
@@ -176,8 +183,53 @@
         </dependency>
 		<!-- (end) additional dependencies -->
 		<dependency>
+			<groupId>com.vmware.gemfire</groupId>
+			<artifactId>spring-cloud-consumer-2021.0-gemfire-9.15</artifactId>
+			<version>1.0.0-build.9999</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<version>2.7.17</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.vmware.gemfire</groupId>
+			<artifactId>geode-core</artifactId>
+			<version>9.15.8</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.vmware.gemfire</groupId>
+			<artifactId>geode-cq</artifactId>
+			<version>9.15.8</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.vmware.gemfire</groupId>
+			<artifactId>gemfire-testcontainers</artifactId>
+			<version>1.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>1.18.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka-test</artifactId>
+			<version>2.8.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>kafka</artifactId>
+			<version>1.18.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>testcontainers</artifactId>
+			<version>1.18.3</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

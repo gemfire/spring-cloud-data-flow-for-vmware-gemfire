@@ -15,7 +15,7 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.vmware.gemfire.spring.cloud.stream.app</groupId>
+	<groupId>com.vmware.gemfire.spring.cloud.stream</groupId>
 	<artifactId>apps</artifactId>
 	<version>1.0.0-build.9999</version>
 	<packaging>pom</packaging>

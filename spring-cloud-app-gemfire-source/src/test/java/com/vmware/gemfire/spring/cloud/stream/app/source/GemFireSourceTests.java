@@ -1,23 +1,14 @@
 /*
- * Copyright 2020-2020 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) VMware, Inc. 2023. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
  */
-
-package org.springframework.cloud.stream.app.source.geode;
+package com.vmware.gemfire.spring.cloud.stream.app.source;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vmware.gemfire.spring.cloud.fn.common.JsonPdxFunctions;
+import com.vmware.gemfire.spring.cloud.fn.supplier.GemFireSupplierConfiguration;
+import com.vmware.gemfire.testcontainers.GemFireClusterContainer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,13 +20,9 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
-import org.springframework.cloud.fn.common.geode.JsonPdxFunctions;
-import org.springframework.cloud.fn.supplier.geode.GeodeSupplierConfiguration;
-import org.springframework.cloud.stream.app.source.geodeserver.GeodeServerTestConfiguration;
 import org.springframework.cloud.stream.binder.test.OutputDestination;
 import org.springframework.cloud.stream.binder.test.TestChannelBinderConfiguration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.gemfire.tests.integration.ForkingClientServerIntegrationTestsSupport;
 import org.springframework.messaging.Message;
 
 import java.io.IOException;
@@ -46,38 +33,45 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Tag("integration")
-public class GeodeSourceTests {
+public class GemFireSourceTests {
 
 	private static ApplicationContextRunner applicationContextRunner;
+
+	private static GemFireClusterContainer gemFireClusterContainer;
 
 
 	private ObjectMapper objectMapper = new ObjectMapper();
 
 	@BeforeAll
 	static void setup() throws IOException {
-		ForkingClientServerIntegrationTestsSupport.startGemFireServer(
-				GeodeServerTestConfiguration.class, "-Dspring.data.gemfire.logging.level=warn");
+
+		gemFireClusterContainer = new GemFireClusterContainer(1, "gemfire/gemfire:9.15.8");
+
+		gemFireClusterContainer.acceptLicense().start();
+
+		gemFireClusterContainer.gfsh(
+				false,
+				"create region --name=myRegion --type=REPLICATE");
 
 		applicationContextRunner = new ApplicationContextRunner()
 				.withUserConfiguration(
-						TestChannelBinderConfiguration.getCompleteConfiguration(GeodeSourceTestApplication.class));
+						TestChannelBinderConfiguration.getCompleteConfiguration(GemFireSourceTestApplication.class));
 
 	}
 
 	@AfterAll
 	static void stopServer() {
-		ForkingClientServerIntegrationTestsSupport.stopGemFireServer();
-		ForkingClientServerIntegrationTestsSupport.clearCacheServerPortAndPoolPortProperties();
+		gemFireClusterContainer.close();
 	}
 
 	@Test
 	void getCacheEvents() {
 		applicationContextRunner
-				.withPropertyValues("geode.region.regionName=myRegion",
-						"geode.supplier.event-expression=key+':'+newValue",
-						"geode.pool.connectType=server",
-						"geode.pool.hostAddresses=" + "localhost:" + System.getProperty("spring.data.gemfire.cache.server.port"),
-						"spring.cloud.function.definition=geodeSupplier")
+				.withPropertyValues("gemfire.region.regionName=myRegion",
+						"gemfire.supplier.event-expression=key+':'+newValue",
+						"gemfire.pool.connectType=locator",
+						"gemfire.pool.hostAddresses=" + gemFireClusterContainer.getHost()+":" + gemFireClusterContainer.getLocatorPort(),
+						"spring.cloud.function.definition=gemfireSupplier")
 				.run(context -> {
 
 					// Using local region here since it's faster
@@ -90,7 +84,7 @@ public class GeodeSourceTests {
 
 					List<String> values = new ArrayList();
 					for (int i = 0; i < 3; i++) {
-						Message<byte[]> message = outputDestination.receive(Duration.ofSeconds(3).toMillis(), "geodeSupplier-out-0");
+						Message<byte[]> message = outputDestination.receive(Duration.ofSeconds(3).toMillis(), "gemfireSupplier-out-0");
 						assertThat(message).isNotNull();
 						values.add(new String(message.getPayload()));
 					}
@@ -103,12 +97,12 @@ public class GeodeSourceTests {
 	void pdxReadSerialized() {
 		applicationContextRunner
 				.withPropertyValues(
-						"spring.cloud.function.definition=geodeSupplier",
-						"geode.region.regionName=myRegion",
-						"geode.client.pdx-read-serialized=true",
-						"geode.supplier.query=Select * from /myRegion where symbol='XXX' and price > 140",
-						"geode.pool.connectType=server",
-						"geode.pool.hostAddresses=" + "localhost:" + System.getProperty("spring.data.gemfire.cache.server.port"))
+						"spring.cloud.function.definition=gemfireSupplier",
+						"gemfire.region.regionName=myRegion",
+						"gemfire.client.pdx-read-serialized=true",
+						"gemfire.supplier.query=Select * from /myRegion where symbol='XXX' and price > 140",
+						"gemfire.pool.connectType=locator",
+						"gemfire.pool.hostAddresses=" + gemFireClusterContainer.getHost()+":" + gemFireClusterContainer.getLocatorPort())
 				.run(context -> {
 					OutputDestination outputDestination = context.getBean(OutputDestination.class);
 					// Using local region here
@@ -119,7 +113,7 @@ public class GeodeSourceTests {
 					putStockEvent(region, new Stock("YYY", 110.01));
 					putStockEvent(region, new Stock("XXX", 139.80));
 
-					Message<byte[]> message = outputDestination.receive(Duration.ofSeconds(3).toMillis(), "geodeSupplier-out-0");
+					Message<byte[]> message = outputDestination.receive(Duration.ofSeconds(3).toMillis(), "gemfireSupplier-out-0");
 					assertThat(message).isNotNull();
 					Stock result = objectMapper.readValue(message.getPayload(), Stock.class);
 					assertThat(result).isEqualTo(new Stock("XXX", 140.20));
@@ -141,8 +135,8 @@ public class GeodeSourceTests {
 	}
 
 	@SpringBootApplication
-	@Import(GeodeSupplierConfiguration.class)
-	static class GeodeSourceTestApplication {
+	@Import(GemFireSupplierConfiguration.class)
+	static class GemFireSourceTestApplication {
 
 	}
 }
