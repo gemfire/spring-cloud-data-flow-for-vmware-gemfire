@@ -38,55 +38,42 @@
 	<properties>
 		<skipTests>true</skipTests>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- (begin) maven properties -->
-
-		<!-- (end) maven properties -->
+		<spring-boot.version>2.7.17</spring-boot.version>
+		<spring-cloud.version>2021.0.8</spring-cloud.version>
+		<spring-cloud-function.version>3.2.11</spring-cloud-function.version>
+		<spring-cloud-stream-dependencies.version>3.2.9</spring-cloud-stream-dependencies.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- (begin) managed dependencies -->
 			<dependency>
-				<groupId>org.testcontainers</groupId>
-				<artifactId>testcontainers-bom</artifactId>
-				<version>1.18.3</version>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 			<dependency>
-              <groupId>org.springframework.cloud</groupId>
-              <artifactId>spring-cloud-function-dependencies</artifactId>
-              <version>3.2.5</version>
-              <type>pom</type>
-              <scope>import</scope>
-            </dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 			<dependency>
-              <groupId>org.springframework.cloud</groupId>
-              <artifactId>spring-cloud-stream-dependencies</artifactId>
-              <version>3.2.4</version>
-              <type>pom</type>
-              <scope>import</scope>
-            </dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-function-dependencies</artifactId>
+				<version>${spring-cloud-function.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
 			<dependency>
-              <groupId>org.springframework.cloud</groupId>
-              <artifactId>spring-cloud-dependencies</artifactId>
-              <version>2021.0.3</version>
-              <type>pom</type>
-              <scope>import</scope>
-            </dependency>
-			<dependency>
-              <groupId>org.springframework.cloud.fn</groupId>
-              <artifactId>function-dependencies</artifactId>
-              <version>1.2.1</version>
-              <type>pom</type>
-              <scope>import</scope>
-            </dependency>
-			<dependency>
-              <groupId>com.wavefront</groupId>
-              <artifactId>wavefront-spring-boot-bom</artifactId>
-              <version>2.2.2</version>
-              <type>pom</type>
-              <scope>import</scope>
-            </dependency>
-			<!-- (end) managed dependencies -->
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-stream-dependencies</artifactId>
+				<version>${spring-cloud-stream-dependencies.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -103,7 +90,6 @@
 		<dependency>
           <groupId>io.pivotal.spring.cloud</groupId>
           <artifactId>spring-cloud-services-starter-config-client</artifactId>
-          <version>3.2.0.RELEASE</version>
         </dependency>
 		<dependency>
           <groupId>io.micrometer</groupId>
@@ -117,7 +103,6 @@
 		<dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-configuration-processor</artifactId>
-			<version>2.7.17</version>
         </dependency>
 		<dependency>
           <groupId>org.springframework.boot</groupId>
@@ -130,7 +115,6 @@
 		<dependency>
           <groupId>org.springframework.cloud.stream.app</groupId>
           <artifactId>stream-applications-security-common</artifactId>
-          <version>3.2.1</version>
         </dependency>
 		<dependency>
           <groupId>io.micrometer</groupId>
@@ -152,7 +136,6 @@
 		<dependency>
           <groupId>org.springframework.cloud.stream.app</groupId>
           <artifactId>stream-applications-postprocessor-common</artifactId>
-          <version>3.2.1</version>
         </dependency>
 		<dependency>
           <groupId>com.wavefront</groupId>
@@ -173,48 +156,17 @@
 		<dependency>
           <groupId>io.pivotal.cfenv</groupId>
           <artifactId>java-cfenv-boot</artifactId>
-          <version>2.4.0</version>
         </dependency>
 
 		<dependency>
           <groupId>org.springframework.cloud</groupId>
           <artifactId>spring-cloud-stream-binder-kafka</artifactId>
         </dependency>
-		<!-- (end) additional dependencies -->
 		<dependency>
 			<groupId>com.vmware.gemfire</groupId>
 			<artifactId>spring-cloud-supplier-2021.0-gemfire-9.15</artifactId>
-			<version>1.0.0-build.9999</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<version>2.7.17</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.vmware.gemfire</groupId>
-			<artifactId>geode-core</artifactId>
-			<version>9.15.8</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.vmware.gemfire</groupId>
-			<artifactId>geode-cq</artifactId>
-			<version>9.15.8</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.vmware.gemfire</groupId>
-			<artifactId>gemfire-testcontainers</artifactId>
-			<version>1.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.testcontainers</groupId>
-			<artifactId>junit-jupiter</artifactId>
-			<version>1.18.3</version>
-		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka-test</artifactId>
@@ -223,13 +175,7 @@
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>kafka</artifactId>
-			<version>1.18.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.testcontainers</groupId>
-			<artifactId>testcontainers</artifactId>
-			<version>1.18.3</version>
-			<scope>test</scope>
+			<version>${testcontainers.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -280,23 +226,28 @@
 	</pluginRepositories>
 	<build>
 		<plugins>
-			<!-- (begin) additional plugins -->
-
-			<!-- (end) additional plugins -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${spring-boot.version}</version>
+				<configuration>
+					<mainClass>
+						org.springframework.cloud.stream.app.gemfire.source.kafka.GemfireSourceKafkaApplication.class
+					</mainClass>
+					<image>
+						<builder>paketobuildpacks/builder-jammy-base:latest</builder>
+					</image>
+				</configuration>
 			</plugin>
 
-
 			<!--
-			 Use of properties-maven-plugin to load the encoded metadata properties created by the jib-maven-plugin
-			 Use: Use: ./mvnw clean install jib:dockerBuild or ./mvnw clean install jib:build
-			-->
+             Use of properties-maven-plugin to load the encoded metadata properties created by the jib-maven-plugin
+             Use: Use: ./mvnw clean install jib:dockerBuild or ./mvnw clean install jib:build
+            -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>properties-maven-plugin</artifactId>
-				<version>1.0.0</version>
+				<version>1.2.1</version>
 				<executions>
 					<execution>
 						<phase>process-classes</phase>

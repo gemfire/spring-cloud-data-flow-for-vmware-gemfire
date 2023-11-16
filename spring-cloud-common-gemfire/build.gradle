@@ -35,14 +35,14 @@ project.ext.set("pomProjectDescription", "Spring Cloud Dataflow Common For VMwar
 dependencyManagement {
     imports {
         mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
-//        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
     }
 }
 
 dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-    implementation ("com.vmware.gemfire:spring-data-2.7-gemfire-${getGemFireBaseVersion()}:$springDataGemFire") {
+    api ("com.vmware.gemfire:spring-data-2.7-gemfire-${getGemFireBaseVersion()}:$springDataGemFire") {
         exclude group: "org.springframework"
         exclude module: "shiro-event"
         exclude module: "shiro-lang"
@@ -53,10 +53,10 @@ dependencies {
         exclude module: "shiro-cache"
         exclude module: "commons-logging"
     }
-    compileOnly("com.vmware.gemfire:geode-core:$gemfireVersion") {
+    api("com.vmware.gemfire:geode-core:$gemfireVersion") {
         exclude module: "commons-logging"
     }
-    compileOnly("com.vmware.gemfire:geode-cq:$gemfireVersion")
+    api("com.vmware.gemfire:geode-cq:$gemfireVersion")
 
     implementation 'org.json:json:20200518'
     implementation "com.vmware.gemfire:spring-integration-5.5-gemfire-${getGemFireBaseVersion()}:${springIntegrationGemFire}"

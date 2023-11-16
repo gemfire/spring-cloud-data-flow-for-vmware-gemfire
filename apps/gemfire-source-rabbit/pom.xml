@@ -23,73 +23,17 @@
     </description>
 
     <properties>
-        <skipTests>true</skipTests>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- (begin) maven properties -->
 
-        <!-- (end) maven properties -->
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <!-- (begin) managed dependencies -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-function-dependencies</artifactId>
-                <version>3.2.5</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-stream-dependencies</artifactId>
-                <version>3.2.4</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>2021.0.8</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud.fn</groupId>
-                <artifactId>function-dependencies</artifactId>
-                <version>1.2.1</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.wavefront</groupId>
-                <artifactId>wavefront-spring-boot-bom</artifactId>
-                <version>2.2.2</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.testcontainers</groupId>
-                <artifactId>testcontainers-bom</artifactId>
-                <version>1.18.3</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- (end) managed dependencies -->
-        </dependencies>
-    </dependencyManagement>
-
     <dependencies>
-        <!-- (begin) additional dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
-            <version>2.7.17</version>
         </dependency>
         <dependency>
             <groupId>io.pivotal.spring.cloud</groupId>
             <artifactId>spring-cloud-services-starter-config-client</artifactId>
-            <version>3.2.0.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -102,11 +46,6 @@
         <dependency>
             <groupId>org.springframework.cloud.stream.app</groupId>
             <artifactId>stream-applications-security-common</artifactId>
-            <version>3.2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -115,7 +54,6 @@
         <dependency>
             <groupId>org.springframework.cloud.stream.app</groupId>
             <artifactId>stream-applications-postprocessor-common</artifactId>
-            <version>3.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -128,36 +66,33 @@
         <dependency>
             <groupId>io.pivotal.cfenv</groupId>
             <artifactId>java-cfenv-boot</artifactId>
-            <version>2.4.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.vmware.gemfire</groupId>
+            <artifactId>spring-cloud-supplier-2021.0-gemfire-9.15</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
         </dependency>
-        <!-- (end) additional dependencies -->
-        <dependency>
-            <groupId>com.vmware.gemfire</groupId>
-            <artifactId>spring-cloud-supplier-2021.0-gemfire-9.15</artifactId>
-            <version>1.0.0-build.9999</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <version>2.7.17</version>
-            <scope>test</scope>
-        </dependency>
+
     </dependencies>
 
 
     <build>
         <plugins>
-            <!-- (begin) additional plugins -->
-
-            <!-- (end) additional plugins -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <configuration>
+                    <mainClass>
+                        org.springframework.cloud.stream.app.gemfire.source.rabbit.GemfireSourceRabbitApplication.class
+                    </mainClass>
+                    <image>
+                        <builder>paketobuildpacks/builder-jammy-base:latest</builder>
+                    </image>
+                </configuration>
             </plugin>
 
             <!--
@@ -167,7 +102,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>properties-maven-plugin</artifactId>
-                <version>1.0.0</version>
+                <version>1.2.1</version>
                 <executions>
                     <execution>
                         <phase>process-classes</phase>
@@ -214,40 +149,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0</version>
-                <configuration>
-                    <skipTests>${skipTests}</skipTests>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>javadoc</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <quiet>true</quiet>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+
         </plugins>
     </build>
 </project>

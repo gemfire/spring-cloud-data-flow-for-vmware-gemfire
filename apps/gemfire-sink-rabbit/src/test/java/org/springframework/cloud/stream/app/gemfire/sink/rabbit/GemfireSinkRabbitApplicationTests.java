@@ -22,7 +22,7 @@ public class GemfireSinkRabbitApplicationTests {
 
 	@BeforeAll
 	static void setup() throws IOException {
-		gemFireClusterContainer = new GemFireClusterContainer("gemfire/gemfire:9.15.8");
+		gemFireClusterContainer = new GemFireClusterContainer(System.getProperty("spring.test.gemfire.docker.image"));
 
 		gemFireClusterContainer.acceptLicense().start();
 

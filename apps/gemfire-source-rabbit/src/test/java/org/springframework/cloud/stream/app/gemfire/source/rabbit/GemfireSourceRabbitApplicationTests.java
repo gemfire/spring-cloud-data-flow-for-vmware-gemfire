@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
 public class GemfireSourceRabbitApplicationTests {
@@ -23,7 +24,7 @@ public class GemfireSourceRabbitApplicationTests {
 
   @BeforeAll
   static void setup() throws IOException {
-    gemFireClusterContainer = new GemFireClusterContainer(1,"gemfire/gemfire:9.15.9");
+    gemFireClusterContainer = new GemFireClusterContainer(1,System.getProperty("spring.test.gemfire.docker.image"));
 
     gemFireClusterContainer.acceptLicense().start();
 
@@ -31,13 +32,13 @@ public class GemfireSourceRabbitApplicationTests {
         false,
         "create region --name=Test --type=REPLICATE");
 
-    System.setProperty("gemfire.pool.subscriptionEnabled","true");
-    System.setProperty("gemfire.pool.hostAddresses",gemFireClusterContainer.getHost()+":"+gemFireClusterContainer.getLocatorPort());
+    System.setProperty("gemfire.pool.subscriptionEnabled", "true");
+    System.setProperty("gemfire.pool.hostAddresses", gemFireClusterContainer.getHost() + ":" + gemFireClusterContainer.getLocatorPort());
   }
 
   @AfterAll
   static void stopServer() {
-    Awaitility.await().pollDelay(Duration.of(5, ChronoUnit.SECONDS)).until(() -> true);
+    Awaitility.await().pollDelay(Duration.of(10, ChronoUnit.SECONDS)).timeout(15, TimeUnit.SECONDS).until(() -> true);
     if (gemFireClusterContainer != null) {
       gemFireClusterContainer.close();
     }

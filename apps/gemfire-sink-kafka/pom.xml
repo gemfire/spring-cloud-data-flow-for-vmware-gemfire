@@ -22,74 +22,9 @@
 	<description>Spring Cloud Stream Gemfire Sink Kafka Binder Application
 	</description>
 
-	<distributionManagement>
-		<repository>
-			<id>repo.spring.io</id>
-			<name>Spring Release Repository</name>
-			<url>https://repo.spring.io/libs-release-local</url>
-		</repository>
-		<snapshotRepository>
-			<id>repo.spring.io</id>
-			<name>Spring Snapshot Repository</name>
-			<url>https://repo.spring.io/libs-snapshot-local</url>
-		</snapshotRepository>
-	</distributionManagement>
+	<properties/>
 
-	<properties>
-		<skipTests>true</skipTests>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- (begin) maven properties -->
-
-		<!-- (end) maven properties -->
-	</properties>
-
-	<dependencyManagement>
-		<dependencies>
-			<!-- (begin) managed dependencies -->
-			<dependency>
-				<groupId>org.testcontainers</groupId>
-				<artifactId>testcontainers-bom</artifactId>
-				<version>1.18.3</version>
-			</dependency>
-
-			<dependency>
-              <groupId>org.springframework.cloud</groupId>
-              <artifactId>spring-cloud-function-dependencies</artifactId>
-              <version>3.2.5</version>
-              <type>pom</type>
-              <scope>import</scope>
-            </dependency>
-			<dependency>
-              <groupId>org.springframework.cloud</groupId>
-              <artifactId>spring-cloud-stream-dependencies</artifactId>
-              <version>3.2.4</version>
-              <type>pom</type>
-              <scope>import</scope>
-            </dependency>
-			<dependency>
-              <groupId>org.springframework.cloud</groupId>
-              <artifactId>spring-cloud-dependencies</artifactId>
-              <version>2021.0.3</version>
-              <type>pom</type>
-              <scope>import</scope>
-            </dependency>
-			<dependency>
-              <groupId>org.springframework.cloud.fn</groupId>
-              <artifactId>function-dependencies</artifactId>
-              <version>1.2.1</version>
-              <type>pom</type>
-              <scope>import</scope>
-            </dependency>
-			<dependency>
-              <groupId>com.wavefront</groupId>
-              <artifactId>wavefront-spring-boot-bom</artifactId>
-              <version>2.2.2</version>
-              <type>pom</type>
-              <scope>import</scope>
-            </dependency>
-			<!-- (end) managed dependencies -->
-		</dependencies>
-	</dependencyManagement>
+	<dependencyManagement/>
 
 	<dependencies>
 		<!-- (begin) additional dependencies -->
@@ -104,7 +39,6 @@
 		<dependency>
           <groupId>io.pivotal.spring.cloud</groupId>
           <artifactId>spring-cloud-services-starter-config-client</artifactId>
-          <version>3.2.0.RELEASE</version>
         </dependency>
 		<dependency>
           <groupId>io.micrometer</groupId>
@@ -118,7 +52,6 @@
 		<dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-configuration-processor</artifactId>
-			<version>2.7.17</version>
         </dependency>
 		<dependency>
           <groupId>org.springframework.boot</groupId>
@@ -131,7 +64,6 @@
 		<dependency>
           <groupId>org.springframework.cloud.stream.app</groupId>
           <artifactId>stream-applications-security-common</artifactId>
-          <version>3.2.1</version>
         </dependency>
 		<dependency>
           <groupId>io.micrometer</groupId>
@@ -153,7 +85,6 @@
 		<dependency>
           <groupId>org.springframework.cloud.stream.app</groupId>
           <artifactId>stream-applications-postprocessor-common</artifactId>
-          <version>3.2.1</version>
         </dependency>
 		<dependency>
           <groupId>com.wavefront</groupId>
@@ -174,7 +105,6 @@
 		<dependency>
           <groupId>io.pivotal.cfenv</groupId>
           <artifactId>java-cfenv-boot</artifactId>
-          <version>2.4.0</version>
         </dependency>
 
 		<dependency>
@@ -185,19 +115,8 @@
 		<dependency>
 			<groupId>com.vmware.gemfire</groupId>
 			<artifactId>spring-cloud-consumer-2021.0-gemfire-9.15</artifactId>
-			<version>1.0.0-build.9999</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<version>2.7.17</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.testcontainers</groupId>
-			<artifactId>junit-jupiter</artifactId>
-			<version>1.18.3</version>
-		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka-test</artifactId>
@@ -210,69 +129,31 @@
 		</dependency>
 	</dependencies>
 
-	<repositories>
-		<!-- (begin) additional repositories -->
-		<repository>
-              <id>gemfire-release-repo</id>
-              <name>Pivotal GemFire Release Repository</name>
-              <url>https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire</url>
-            </repository>
 
-		<!-- (end) additional repositories -->
-
-		<repository>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<id>spring-snapshots</id>
-			<name>Spring Snapshots</name>
-			<url>https://repo.spring.io/snapshot</url>
-		</repository>
-		<repository>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<id>spring-snapshots</id>
-			<name>Spring Snapshots</name>
-			<url>https://repo.spring.io/snapshot</url>
-		</pluginRepository>
-		<pluginRepository>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-		</pluginRepository>
-	</pluginRepositories>
 	<build>
 		<plugins>
-			<!-- (begin) additional plugins -->
-
-			<!-- (end) additional plugins -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${spring-boot.version}</version>
+				<configuration>
+					<mainClass>
+						org.springframework.cloud.stream.app.gemfire.sink.kafka.GemfireSinkKafkaApplication.class
+					</mainClass>
+					<image>
+						<builder>paketobuildpacks/builder-jammy-base:latest</builder>
+					</image>
+				</configuration>
 			</plugin>
 
 			<!--
-			 Use of properties-maven-plugin to load the encoded metadata properties created by the jib-maven-plugin
-			 Use: Use: ./mvnw clean install jib:dockerBuild or ./mvnw clean install jib:build
-			-->
+             Use of properties-maven-plugin to load the encoded metadata properties created by the jib-maven-plugin
+             Use: Use: ./mvnw clean install jib:dockerBuild or ./mvnw clean install jib:build
+            -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>properties-maven-plugin</artifactId>
-				<version>1.0.0</version>
+				<version>1.2.1</version>
 				<executions>
 					<execution>
 						<phase>process-classes</phase>
@@ -289,7 +170,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dataflow-apps-metadata-plugin</artifactId>
@@ -318,40 +198,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0</version>
-				<configuration>
-					<skipTests>${skipTests}</skipTests>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>javadoc</id>
-						<phase>package</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<quiet>true</quiet>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<phase>package</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+
 		</plugins>
 	</build>
 </project>
