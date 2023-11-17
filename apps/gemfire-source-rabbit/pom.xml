@@ -28,46 +28,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.pivotal.spring.cloud</groupId>
-            <artifactId>spring-cloud-services-starter-config-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud.stream.app</groupId>
-            <artifactId>stream-applications-security-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-logging</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud.stream.app</groupId>
-            <artifactId>stream-applications-postprocessor-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.pivotal.cfenv</groupId>
-            <artifactId>java-cfenv-boot</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.vmware.gemfire</groupId>
             <artifactId>spring-cloud-supplier-2021.0-gemfire-9.15</artifactId>
         </dependency>
