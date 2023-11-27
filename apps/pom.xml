@@ -17,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.vmware.gemfire.spring.cloud.stream</groupId>
     <artifactId>apps</artifactId>
-    <version>1.0.0-build.9999</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
     <name>GemFire Apps Modules</name>
@@ -31,11 +31,13 @@
 
     <scm>
         <connection>scm:git:git://github.com/gemfire/spring-cloud-data-flow-for-vmware-gemfire.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:gemfire/spring-cloud-data-flow-for-vmware-gemfire.git</developerConnection>
+        <developerConnection>scm:git:ssh://git@github.com:gemfire/spring-cloud-data-flow-for-vmware-gemfire.git
+        </developerConnection>
         <url>https://github.com/gemfire/spring-cloud-data-flow-for-vmware-gemfire</url>
     </scm>
 
     <properties>
+        <revision>1.0.0-build.9999</revision>
         <skipTests>false</skipTests>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-security.version>5.8.8</spring-security.version>
@@ -265,7 +267,22 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <repository>
+            <id>spring-gemfire-google-storage-repo</id>
+            <url>gs://spring-gemfire-build-resources/maven</url>
+        </repository>
+    </distributionManagement>
+
     <repositories>
+        <repository>
+            <id>gemfire-google-storage-repo</id>
+            <url>gs://gemfire-build-resources/maven/gemfire</url>
+        </repository>
+        <repository>
+            <id>spring-gemfire-google-storage-repo</id>
+            <url>gs://spring-gemfire-build-resources/maven</url>
+        </repository>
         <!-- (begin) additional repositories -->
         <repository>
             <id>gemfire-release-repo</id>
@@ -311,7 +328,18 @@
         </pluginRepository>
     </pluginRepositories>
 
+    <distributionManagement>
+
+    </distributionManagement>
+
     <build>
+        <extensions>
+            <extension>
+                <groupId>com.gkatzioura.maven.cloud</groupId>
+                <artifactId>google-storage-wagon</artifactId>
+                <version>2.3</version>
+            </extension>
+        </extensions>
         <plugins>
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>

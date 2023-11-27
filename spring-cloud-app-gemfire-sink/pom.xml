@@ -11,9 +11,10 @@
 
     <groupId>com.vmware.gemfire</groupId>
     <artifactId>spring-cloud-app-gemfire-sink</artifactId>
-    <version>1.0.0-build.9999</version>
+    <version>${revision}</version>
 
     <properties>
+        <revision>1.0.0-build.9999</revision>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -36,7 +37,7 @@
         <dependency>
             <groupId>com.vmware.gemfire</groupId>
             <artifactId>spring-cloud-consumer-2021.0-gemfire-9.15</artifactId>
-            <version>${project.version}</version>
+            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -66,6 +67,13 @@
     </dependencies>
 
     <build>
+        <extensions>
+            <extension>
+                <groupId>com.gkatzioura.maven.cloud</groupId>
+                <artifactId>google-storage-wagon</artifactId>
+                <version>2.3</version>
+            </extension>
+        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -105,7 +113,7 @@
                                 <dependency>
                                     <groupId>com.vmware.gemfire</groupId>
                                     <artifactId>spring-cloud-consumer-2021.0-gemfire-9.15</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>${revision}</version>
                                 </dependency>
                             </dependencies>
                         </maven>
@@ -115,7 +123,22 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>spring-gemfire-google-storage-repo</id>
+            <url>gs://spring-gemfire-build-resources/maven</url>
+        </repository>
+    </distributionManagement>
+
     <repositories>
+        <repository>
+            <id>gemfire-google-storage-repo</id>
+            <url>gs://gemfire-build-resources/maven/gemfire</url>
+        </repository>
+        <repository>
+            <id>spring-gemfire-google-storage-repo</id>
+            <url>gs://spring-gemfire-build-resources/maven</url>
+        </repository>
         <repository>
             <id>gemfire-release-repo</id>
             <name>Pivotal GemFire Release Repository</name>
