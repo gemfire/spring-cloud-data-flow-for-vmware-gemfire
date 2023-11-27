@@ -30,10 +30,9 @@
     </modules>
 
     <scm>
-        <connection>scm:git:git://github.com/spring-cloud/spring-cloud-stream-app-starters.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/spring-cloud/spring-cloud-stream-app-starters.git
-        </developerConnection>
-        <url>https://github.com/spring-cloud/spring-cloud-stream-app-starters</url>
+        <connection>scm:git:git://github.com/gemfire/spring-cloud-data-flow-for-vmware-gemfire.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:gemfire/spring-cloud-data-flow-for-vmware-gemfire.git</developerConnection>
+        <url>https://github.com/gemfire/spring-cloud-data-flow-for-vmware-gemfire</url>
     </scm>
 
     <properties>
@@ -59,7 +58,8 @@
         <gemfire-docker-image>gemfire/gemfire:9.15.9</gemfire-docker-image>
         <stream-applications-micrometer-common.version>3.2.1</stream-applications-micrometer-common.version>
         <prometheus-rsocket-spring.version>1.4.0</prometheus-rsocket-spring.version>
-        <awaiti
+
+
     </properties>
 
     <dependencyManagement>

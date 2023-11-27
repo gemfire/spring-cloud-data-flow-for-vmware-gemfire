@@ -46,7 +46,7 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     implementation project(':spring-cloud-common-gemfire')
-    implementation ("com.vmware.gemfire:spring-data-2.7-gemfire-${getGemFireBaseVersion()}:$springDataGemFire") {
+    implementation ("com.vmware.gemfire:spring-data-2.7-gemfire-${getGemFireBaseVersion()}:$springDataGemFireVersion") {
         exclude group: "org.springframework"
         exclude module: "shiro-event"
         exclude module: "shiro-lang"
@@ -63,10 +63,10 @@ dependencies {
     compileOnly("com.vmware.gemfire:geode-cq:$gemfireVersion")
 
     implementation 'org.json:json:20200518'
-    implementation "com.vmware.gemfire:spring-integration-5.5-gemfire-${getGemFireBaseVersion()}:${springIntegrationGemFire}"
+    implementation "com.vmware.gemfire:spring-integration-5.5-gemfire-${getGemFireBaseVersion()}:${springIntegrationGemFireVersion}"
 
-    implementation "com.vmware.gemfire:spring-boot-${getSpringBootBaseVersion()}-gemfire-${getGemFireBaseVersion()}:${springBootGemFire}"
-    implementation "com.vmware.gemfire:spring-boot-logging-${getSpringBootBaseVersion()}-gemfire-${getGemFireBaseVersion()}:${springBootGemFire}"
+    implementation "com.vmware.gemfire:spring-boot-${getSpringBootBaseVersion()}-gemfire-${getGemFireBaseVersion()}:${springBootGemFireVersion}"
+    implementation "com.vmware.gemfire:spring-boot-logging-${getSpringBootBaseVersion()}-gemfire-${getGemFireBaseVersion()}:${springBootGemFireVersion}"
     implementation 'org.projectlombok:lombok:1.18.28'
 
     implementation 'javax.validation:validation-api:2.0.1.Final'
