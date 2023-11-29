@@ -39,7 +39,7 @@ public class GemFireSinkTests {
 
 	@BeforeAll
 	static void setup() throws IOException {
-		gemFireClusterContainer = new GemFireClusterContainer(1, "gemfire/gemfire:9.15.8");
+		gemFireClusterContainer = new GemFireClusterContainer(1, "gemfire/gemfire:9.15.9");
 
 		gemFireClusterContainer.acceptLicense().start();
 

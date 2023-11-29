@@ -38,7 +38,7 @@ public class GemfireSinkKafkaApplicationTests {
 
 	@BeforeAll
 	static void setup() throws IOException {
-		gemFireClusterContainer = new GemFireClusterContainer(System.getProperty("spring.test.gemfire.docker.image"));
+		gemFireClusterContainer = new GemFireClusterContainer(1,"gemfire/gemfire:9.15.9");
 
 		gemFireClusterContainer.acceptLicense().start();
 

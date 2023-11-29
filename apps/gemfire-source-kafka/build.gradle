@@ -1,0 +1,68 @@
+plugins {
+    id 'java-library'
+    id 'idea'
+    id 'eclipse'
+    id "io.freefair.lombok" version "8.0.1"
+    id 'org.springframework.boot'
+    id "io.spring.dependency-management"
+    id 'gemfire-repo-artifact-publishing'
+}
+
+group = 'com.vmware.gemfire'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+javadoc {
+    title = "Spring Cloud Dataflow Sink for VMware GemFire Java API Reference"
+    failOnError = false
+}
+
+project.ext.set("pomProjectLongName", "Spring Cloud Dataflow Source for VMware GemFire")
+project.ext.set("pomProjectArtifactName", "gemfire-source-kafka")
+project.ext.set("pomProjectDescription", "Spring Cloud Dataflow Source for VMware GemFire using Kafka as a binder")
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+        mavenBom("org.springframework.cloud:spring-cloud-function-dependencies:${springCloudFunctionVersion}")
+        mavenBom("org.springframework.cloud:spring-cloud-stream-dependencies:${springCloudStreamDependenciesVersion}")
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+dependencies {
+    implementation "org.springframework.cloud:spring-cloud-stream-binder-kafka"
+    implementation "com.vmware.gemfire:spring-cloud-supplier-2021.0-gemfire-9.15:${springCloudSupplierGemfireVersion}"
+
+    testImplementation "org.springframework.kafka:spring-kafka-test:2.8.6"
+    testImplementation "org.testcontainers:kafka:${testcontainersVersion}"
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation "com.vmware.gemfire:gemfire-testcontainers:${gemfireTestContainersVersion}"
+    testImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"
+    testImplementation "com.vmware.gemfire:geode-core:${gemfireVersion}"
+    testImplementation "com.vmware.gemfire:geode-cq:${gemfireVersion}"
+    testImplementation 'org.testcontainers:testcontainers'
+    testImplementation "org.awaitility:awaitility:4.2.0"
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('bootBuildImage') {
+    builder = 'paketobuildpacks/builder-jammy-base:latest'
+}
