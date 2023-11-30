@@ -3,7 +3,6 @@ plugins {
     id 'idea'
     id 'eclipse'
     id "io.freefair.lombok" version "8.0.1"
-    id 'org.springframework.boot'
     id "io.spring.dependency-management"
     id 'gemfire-repo-artifact-publishing'
 }
@@ -25,46 +24,37 @@ java {
 }
 
 javadoc {
-    title = "Spring Cloud Dataflow Sink for VMware GemFire Java API Reference"
-    failOnError = false
+    title = "Spring Cloud Stream App Source for VMware GemFire ${getGemFireBaseVersion()} Java API Reference"
+    failOnError=false
 }
 
-project.ext.set("pomProjectLongName", "Spring Cloud Dataflow Sink for VMware GemFire")
-project.ext.set("pomProjectArtifactName", "gemfire-sink-kafka")
-project.ext.set("pomProjectDescription", "Spring Cloud Dataflow Sink for VMware GemFire using Kafka as a binder")
+project.ext.set("pomProjectLongName", "Spring Cloud Stream App Sink for VMware GemFire")
+project.ext.set("pomProjectArtifactName", "spring-cloud-app-gemfire-sink")
+project.ext.set("pomProjectDescription", "Spring Cloud Stream App Sink For VMware GemFire")
 
 dependencyManagement {
     imports {
         mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
-        mavenBom("org.springframework.cloud:spring-cloud-function-dependencies:${springCloudFunctionVersion}")
-        mavenBom("org.springframework.cloud:spring-cloud-stream-dependencies:${springCloudStreamDependenciesVersion}")
+        mavenBom("org.springframework.cloud.stream.app:stream-applications-core:${springStreamApplicationCoreVersion}")
+        mavenBom("org.testcontainers:testcontainers-bom:${testcontainersVersion}")
     }
 }
 
 dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-    implementation "org.springframework.cloud:spring-cloud-stream-binder-kafka"
-    implementation "com.vmware.gemfire:spring-cloud-consumer-2021.0-gemfire-9.15:${springCloudConsumerGemfireVersion}"
-    testImplementation "org.springframework.kafka:spring-kafka-test:2.8.6"
-    testImplementation "org.testcontainers:kafka:${testcontainersVersion}"
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation "com.vmware.gemfire:gemfire-testcontainers:${gemfireTestContainersVersion}"
-    testImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"
-    testImplementation "com.vmware.gemfire:geode-core:${gemfireVersion}"
-    testImplementation "com.vmware.gemfire:geode-cq:${gemfireVersion}"
-    testImplementation 'org.testcontainers:testcontainers'
-    testImplementation "org.awaitility:awaitility:4.2.0"
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    api project(":spring-cloud-consumer-gemfire")
+
+    testImplementation "org.springframework.cloud:spring-cloud-stream:${springCloudStringVersion}:test-binder"
+    testImplementation "org.springframework.cloud:spring-cloud-stream-binder-test:${springCloudStringVersion}"
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "com.vmware.gemfire:gemfire-testcontainers:${gemfireTestcontainersVersion}"
+
 }
 
 test {
     useJUnitPlatform()
-}
-
-tasks.named('bootBuildImage') {
-    builder = 'paketobuildpacks/builder-jammy-base:latest'
 }
 
 repositories {

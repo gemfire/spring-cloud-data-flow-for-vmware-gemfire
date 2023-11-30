@@ -45,7 +45,8 @@ dependencies {
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-    implementation project(':spring-cloud-common-gemfire')
+    api project(':spring-cloud-common-gemfire')
+
     implementation ("com.vmware.gemfire:spring-data-2.7-gemfire-${getGemFireBaseVersion()}:$springDataGemFireVersion") {
         exclude group: "org.springframework"
         exclude module: "shiro-event"
