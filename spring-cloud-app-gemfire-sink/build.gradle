@@ -13,7 +13,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 configurations {
-    compileOnly {
+    compileJava {
         extendsFrom annotationProcessor
     }
 }
@@ -40,6 +40,8 @@ dependencyManagement {
         mavenBom("org.testcontainers:testcontainers-bom:${testcontainersVersion}")
     }
 }
+
+jar.dependsOn(":spring-cloud-consumer-gemfire:jar")
 
 dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'

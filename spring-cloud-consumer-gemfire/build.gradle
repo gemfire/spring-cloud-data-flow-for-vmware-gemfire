@@ -29,7 +29,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 configurations {
-    compileOnly {
+    compileJava {
         extendsFrom annotationProcessor
     }
 }
@@ -40,6 +40,8 @@ dependencyManagement {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
     }
 }
+
+jar.dependsOn(":spring-cloud-common-gemfire:jar")
 
 dependencies {
 

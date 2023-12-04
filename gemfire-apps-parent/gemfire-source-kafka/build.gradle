@@ -6,6 +6,7 @@ plugins {
     id 'org.springframework.boot'
     id "io.spring.dependency-management"
     id 'gemfire-repo-artifact-publishing'
+    id 'gemfire.spring.cloud.metadata-generator'
 }
 
 group = 'com.vmware.gemfire'
@@ -39,7 +40,7 @@ dependencyManagement {
 }
 
 configurations {
-    compileOnly {
+    compileJava {
         extendsFrom annotationProcessor
     }
 }
@@ -48,6 +49,8 @@ java {
     withJavadocJar()
     withSourcesJar()
 }
+
+jar.dependsOn(":spring-cloud-app-gemfire-source:jar",":gemfire-apps-parent:jar")
 
 dependencies {
     implementation "org.springframework.cloud:spring-cloud-stream-binder-kafka"
