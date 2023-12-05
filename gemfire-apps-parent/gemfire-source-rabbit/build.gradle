@@ -50,8 +50,6 @@ java {
     withSourcesJar()
 }
 
-jar.dependsOn(":spring-cloud-app-gemfire-source:jar",":gemfire-apps-parent:jar")
-
 dependencies {
     implementation project(":spring-cloud-app-gemfire-source")
     implementation project(":gemfire-apps-parent")

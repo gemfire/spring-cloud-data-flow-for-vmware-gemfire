@@ -41,8 +41,6 @@ dependencyManagement {
     }
 }
 
-jar.dependsOn(":spring-cloud-consumer-gemfire:jar")
-
 dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 

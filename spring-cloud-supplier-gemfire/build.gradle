@@ -39,8 +39,6 @@ dependencyManagement {
     }
 }
 
-jar.dependsOn(":spring-cloud-common-gemfire:jar")
-
 dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
