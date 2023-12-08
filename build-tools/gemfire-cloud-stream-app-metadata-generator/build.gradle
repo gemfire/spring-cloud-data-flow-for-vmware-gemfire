@@ -10,8 +10,8 @@ repositories {
 dependencies {
     implementation gradleApi()
     implementation 'org.springframework.boot:spring-boot-configuration-processor:2.7.18'
-    implementation 'org.springframework:spring-core:5.3.30'
-    implementation 'org.springframework:spring-beans:5.3.30'
+    implementation 'org.springframework:spring-core:5.3.31'
+    implementation 'org.springframework:spring-beans:5.3.31'
 }
 
 gradlePlugin {

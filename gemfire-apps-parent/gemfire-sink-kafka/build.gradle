@@ -34,6 +34,22 @@ project.ext.set("pomProjectLongName", "Spring Cloud Dataflow Sink for VMware Gem
 project.ext.set("pomProjectArtifactName", "gemfire-sink-kafka")
 project.ext.set("pomProjectDescription", "Spring Cloud Dataflow Sink for VMware GemFire using Kafka as a binder")
 
+task metadataJar(type: Jar) {
+    from project.layout.buildDirectory.dir("generated/metadata")
+    archiveClassifier = "metadata"
+}
+
+metadataJar.dependsOn("generateMetadata")
+publish.dependsOn(metadataJar)
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact metadataJar
+        }
+    }
+}
+
 dependencyManagement {
     imports {
         mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")

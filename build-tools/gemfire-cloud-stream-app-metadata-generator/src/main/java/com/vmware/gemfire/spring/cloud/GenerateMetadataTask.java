@@ -8,12 +8,13 @@ package com.vmware.gemfire.spring.cloud;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.file.Directory;
 import org.gradle.api.file.FileSystemLocation;
-import org.gradle.api.file.RegularFile;
+import org.gradle.api.logging.Logger;
 import org.gradle.api.plugins.JavaPluginExtension;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.InputFiles;
-import org.gradle.api.tasks.OutputFile;
+import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.configurationprocessor.metadata.ConfigurationMetadata;
@@ -25,27 +26,29 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import javax.inject.Inject;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.jar.JarOutputStream;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import static com.vmware.gemfire.spring.cloud.MetadataGeneratorPlugin.*;
 
-public class GenerateMetadataTask extends DefaultTask {
+public abstract class GenerateMetadataTask extends DefaultTask {
 
   private final JsonMarshaller jsonMarshaller = new JsonMarshaller();
+  private final Logger logger = getProject().getLogger();
 
-  private File metadataJar = new File(getProject().getBuildDir(), String
-      .format("libs/%s-%s-%s.jar", getProject().getName(), getProject().getVersion(), "metadata"));
-
+  @OutputDirectory
+  @Inject
+  public Provider<Directory> metadataJarPath;
 
   @InputFiles
   public Provider<Set<FileSystemLocation>> getInputFiles() {
@@ -53,10 +56,6 @@ public class GenerateMetadataTask extends DefaultTask {
     return configuration.getElements();
   }
 
-  @OutputFile
-  public Provider<RegularFile> getMetadataJar() {
-    return getProject().getObjects().directoryProperty().file(metadataJar.getPath().toString());
-  }
 
   @TaskAction
   public void doWork() {
@@ -126,7 +125,7 @@ public class GenerateMetadataTask extends DefaultTask {
         urls.add(new URL("file://" + jarPath.getPath()));
       } catch (MalformedURLException e) {
         //do nothing... just log out the path
-        System.err.println("Could not find url: file://" + jarPath);
+        logger.warn("Could not find url: file://" + jarPath);
       }
     });
 
@@ -217,7 +216,7 @@ public class GenerateMetadataTask extends DefaultTask {
             }
           }
         } catch (Throwable e) {
-          System.err.println("error working with: " + property.getType());
+          logger.warn("error working with: " + property.getType());
         }
       }
     }
@@ -234,7 +233,7 @@ public class GenerateMetadataTask extends DefaultTask {
 
     if (!mergedProperties.containsKey(CONFIGURATION_PROPERTIES_CLASSES) && !mergedProperties
         .containsKey(CONFIGURATION_PROPERTIES_NAMES)) {
-      getProject().getLogger().info(String.format("Visible properties does not contain any required keys: %s",
+      logger.info(String.format("Visible properties does not contain any required keys: %s",
           StringUtils.arrayToCommaDelimitedString(new String[]{
               CONFIGURATION_PROPERTIES_CLASSES,
               CONFIGURATION_PROPERTIES_NAMES
@@ -255,7 +254,7 @@ public class GenerateMetadataTask extends DefaultTask {
       Collection<String> values = StringUtils.commaDelimitedListToSet(currentProperties.getProperty(key));
       values.addAll(StringUtils.commaDelimitedListToSet(newProperties.getProperty(key)));
       if (newProperties.containsKey(key)) {
-        getProject().getLogger().info(String.format("Merging visible property %s=%s", key, newProperties.getProperty(key)));
+        logger.info(String.format("Merging visible property %s=%s", key, newProperties.getProperty(key)));
       }
       newProperties.setProperty(key, StringUtils.collectionToCommaDelimitedString(values));
 
@@ -267,7 +266,7 @@ public class GenerateMetadataTask extends DefaultTask {
     if (localVisible.canRead()) {
       Properties visible = new Properties();
       try (InputStream is = new FileInputStream(localVisible)) {
-        getProject().getLogger().info("!!!! Merging visible metadata from " + visiblePropertiesPath.toString());
+        logger.info("!!!! Merging visible metadata from " + visiblePropertiesPath.toString());
         visible = merge(visible, is);
         return Optional.of(visible);
       }
@@ -278,7 +277,7 @@ public class GenerateMetadataTask extends DefaultTask {
   private Properties getVisibleFromZipFile(Properties visible, String path, ZipFile zipFile, ZipEntry entry)
       throws IOException {
     try (InputStream inputStream = zipFile.getInputStream(entry)) {
-      getProject().getLogger().info("Merging visible metadata from " + path);
+      logger.info("Merging visible metadata from " + path);
       visible = merge(visible, inputStream);
     }
     return visible;
@@ -298,7 +297,7 @@ public class GenerateMetadataTask extends DefaultTask {
             properties = getVisibleFromFile(Paths.get(path, visibleProperties));
             if (properties.isPresent()) {
               if (!visibleProperties.equals(VISIBLE_PROPERTIES_PATH)) {
-                getProject().getLogger().info("Use of " + visibleProperties + " is deprecated." +
+                logger.info("Use of " + visibleProperties + " is deprecated." +
                     " Please use " + VISIBLE_PROPERTIES_PATH);
 
               }
@@ -357,7 +356,7 @@ public class GenerateMetadataTask extends DefaultTask {
               entry = zipFile.getEntry(zipEntry);
               if (entry != null) {
                 if (!zipEntry.equals(VISIBLE_PROPERTIES_PATH)) {
-                  getProject().getLogger().info("Use of " + zipEntry + " is deprecated." +
+                  logger.info("Use of " + zipEntry + " is deprecated." +
                       " Please use " + VISIBLE_PROPERTIES_PATH);
                 }
                 visible = getVisibleFromZipFile(visible, inputFile.getPath(), zipFile, entry);
@@ -382,39 +381,36 @@ public class GenerateMetadataTask extends DefaultTask {
   }
 
   void produceArtifact(MetadataGeneratorPlugin.Result result, Project project) {
-    String artifactLocation = String
-        .format("libs/%s-%s-%s.jar", project.getName(), project.getVersion(), "metadata");
 
-    try (JarOutputStream jos = new JarOutputStream(new FileOutputStream(metadataJar))) {
-      ZipEntry entry = new ZipEntry(METADATA_PATH);
-      jos.putNextEntry(entry);
-      jsonMarshaller.write(result.metadata, jos);
+    Path metadataBasePath = metadataJarPath.get().getAsFile().toPath();
+    Path metadataMetaInfPath = metadataBasePath.resolve("META-INF");
 
-      entry = new ZipEntry(VISIBLE_PROPERTIES_PATH);
-      jos.putNextEntry(entry);
-      result.visible.store(jos, "Describes visible properties for this app");
-
-      entry = new ZipEntry(DEPRECATED_WHITELIST_PATH);
-      jos.putNextEntry(entry);
-      result.visible.store(jos, "DEPRECATED: Describes visible properties for this app");
-
-      entry = new ZipEntry(DEPRECATED_BACKUP_WHITELIST_PATH);
-      jos.putNextEntry(entry);
-      result.visible.store(jos, "DEPRECATED: Describes visible properties for this app");
-
-      entry = new ZipEntry("META-INF/" + SPRING_CLOUD_DATAFLOW_PORT_MAPPING_PROPERTIES);
-      jos.putNextEntry(entry);
-
-      entry = new ZipEntry("META-INF/" + SPRING_CLOUD_DATAFLOW_OPTION_GROUPS_PROPERTIES);
-      jos.putNextEntry(entry);
-
-      result.getPortMappingProperties().store(jos, "Describes visible port mapping properties for this app");
-
-      project.getLogger().info(String.format("Attaching %s to current project", metadataJar.getCanonicalPath()));
-
+    try {
+      if (!metadataMetaInfPath.toFile().exists()) {
+        Files.createDirectories(metadataMetaInfPath);
+      }
     } catch (IOException e) {
-      getProject().getLogger().error(e.getMessage());
-      throw new RuntimeException("Error writing to file", e);
+      throw new RuntimeException(e);
+    }
+
+    writePropertiesToFile(result.visible, metadataBasePath.resolve(VISIBLE_PROPERTIES_PATH).toFile());
+    writePropertiesToFile(result.visible, metadataBasePath.resolve(DEPRECATED_WHITELIST_PATH).toFile());
+    writePropertiesToFile(result.visible, metadataBasePath.resolve(DEPRECATED_BACKUP_WHITELIST_PATH).toFile());
+    writePropertiesToFile(result.getPortMappingProperties(), metadataMetaInfPath.resolve(SPRING_CLOUD_DATAFLOW_OPTION_GROUPS_PROPERTIES).toFile());
+    writePropertiesToFile(new Properties(), metadataMetaInfPath.resolve(SPRING_CLOUD_DATAFLOW_PORT_MAPPING_PROPERTIES).toFile());
+
+    try (FileOutputStream fileOutputStream = new FileOutputStream(metadataBasePath.resolve(METADATA_PATH).toFile())) {
+      jsonMarshaller.write(result.metadata, fileOutputStream);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private static void writePropertiesToFile(Properties properties, File file) {
+    try (FileOutputStream outputStream = new FileOutputStream(file)) {
+      properties.store(outputStream, null);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 }
