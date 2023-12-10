@@ -9,7 +9,7 @@ plugins {
     id 'gemfire.spring.cloud.metadata-generator'
 }
 
-group = 'com.vmware.gemfire'
+group = 'com.vmware.gemfire.spring.cloud.stream.app'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -105,24 +105,4 @@ repositories {
                     })
         }
     }
-}
-
-String getGemFireBaseVersion() {
-    return getBaseVersion(gemfireVersion)
-}
-
-String getSpringCloudBaseVersion() {
-    return getBaseVersion(springCloudVersion)
-}
-
-String getBaseVersion(String version) {
-    def split = "$version".split("\\.")
-    if (split.length < 2) {
-        throw new RuntimeException("version is malformed")
-    }
-    return "${split[0]}.${split[1]}"
-}
-
-String getSpringBootBaseVersion() {
-    return getBaseVersion(springBootVersion)
 }

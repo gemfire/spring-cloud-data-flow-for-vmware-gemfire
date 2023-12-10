@@ -9,7 +9,7 @@ plugins {
     id 'gemfire.spring.cloud.metadata-generator'
 }
 
-group = 'com.vmware.gemfire'
+group = 'com.vmware.gemfire.spring.cloud.stream.app'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
