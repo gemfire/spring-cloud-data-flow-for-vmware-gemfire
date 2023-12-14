@@ -1,5 +1,6 @@
 pluginManagement {
     includeBuild('build-tools/gemfire-cloud-stream-app-metadata-generator')
+    includeBuild('build-tools/gemfire-cloud-stream-app-metadata-docs')
     includeBuild('build-tools/publishing')
 }
 
