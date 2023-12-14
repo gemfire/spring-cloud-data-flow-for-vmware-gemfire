@@ -68,7 +68,7 @@ abstract class MetadataDocsGeneratorTask : DefaultTask() {
                   }
                 )
               }
-              out.println("**")
+              out.println("**") //Close BOLD formatting
               out.println("## Properties:")
               groupedProperties.forEach(BiConsumer { group: String, props: List<ConfigurationMetadataProperty> ->
                 log.debug(
@@ -100,10 +100,32 @@ abstract class MetadataDocsGeneratorTask : DefaultTask() {
     classLoader: ClassLoader,
     propertyValue: Function<ConfigurationMetadataProperty, String>
   ) {
+    if (properties.isNotEmpty()) {
+      createAndWriteTableHeader(out)
+    }
     for (property in properties) {
       log.debug("Documenting " + property.id)
       out.println(markdownFor(property, classLoader, propertyValue))
     }
+    if (properties.isNotEmpty()) {
+      closeTable(out)
+    }
+  }
+
+  private fun createAndWriteTableHeader(out: PrintWriter) {
+    out.println(
+      """<table>
+    <tr>
+    <th style="text-align: left">Property Name</th>
+    <th style="text-align: left">Description</th>
+    <th style="text-align: left">Type</th>
+    <th style="text-align: left">Defaults</th>
+    </tr>"""
+    )
+  }
+
+  private fun closeTable(out: PrintWriter) {
+    out.println("</table>")
   }
 
   private fun groupProperties(
@@ -128,10 +150,7 @@ abstract class MetadataDocsGeneratorTask : DefaultTask() {
     if (classLoader is URLClassLoader) {
       val urls = listOf(*classLoader.urLs)
       log.debug(
-        """
-  Classloader has the following URLs:
-  ${urls.toString().replace(',', '\n')}
-  """.trimIndent()
+        "Classloader has the following URLs:${urls.toString().replace(',', '\n')}".trimIndent()
       )
     }
   }
@@ -141,7 +160,10 @@ abstract class MetadataDocsGeneratorTask : DefaultTask() {
     propertyValue: Function<ConfigurationMetadataProperty, String>
   ): String {
     return String.format(
-      "> **_%s_** \n >> _%s_ **( _%s_ , Default: _%s_ )** \n \n",
+      """<tr><td>%s</td>
+      <td>%s</td>
+      <td>%s</td>
+      <td>%s</td></tr>""",
       propertyValue.apply(property),
       niceDescription(property),
       niceType(property),
