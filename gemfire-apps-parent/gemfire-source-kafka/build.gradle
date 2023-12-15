@@ -41,6 +41,7 @@ publishing {
     publications {
         maven(MavenPublication) {
             artifact metadataJar
+            artifact bootJar
         }
     }
 }

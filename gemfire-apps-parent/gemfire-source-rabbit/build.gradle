@@ -41,6 +41,7 @@ publishing {
     publications {
         maven(MavenPublication) {
             artifact metadataJar
+            artifact bootJar
         }
     }
 }
@@ -86,4 +87,8 @@ dependencies {
 
 tasks.named('bootBuildImage') {
     builder = 'paketobuildpacks/builder-jammy-base:latest'
+}
+
+publish {
+    dependsOn assemble
 }

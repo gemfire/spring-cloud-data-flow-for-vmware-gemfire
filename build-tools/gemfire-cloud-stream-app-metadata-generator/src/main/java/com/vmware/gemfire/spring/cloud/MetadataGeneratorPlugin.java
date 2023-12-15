@@ -45,8 +45,7 @@ public class MetadataGeneratorPlugin implements Plugin<Project> {
     MetadataGeneratorPluginExtension metadataGenerator = project.getExtensions().create("metadataGenerator", MetadataGeneratorPluginExtension.class);
 
     TaskProvider<GenerateMetadataTask> metadataTaskTaskProvider = project.getTasks().register("generateMetadata", GenerateMetadataTask.class, task -> {
-      task.dependsOn("jar");
-      task.mustRunAfter("jar");
+      task.dependsOn("assemble");
       project.getTasks().getByName("publish").dependsOn(task);
       task.metadataJarPath = project.getLayout().getBuildDirectory().dir("generated/metadata");
     });
