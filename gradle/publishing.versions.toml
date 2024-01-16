@@ -1,0 +1,16 @@
+[versions]
+springBootVersion = "2.7.18"
+springCloudDataflowVersion = "2.7.2"
+springFrameworkVersion = "5.3.31"
+versionCatalogUpdateVersion = "0.8.3"
+versionsVersion = "0.50.0"
+
+[libraries]
+spring-beans = { module = "org.springframework:spring-beans", version.ref = "springFrameworkVersion" }
+spring-boot-configuration-processor = { module = "org.springframework.boot:spring-boot-configuration-processor", version.ref = "springBootVersion" }
+spring-cloud-dataflow-configuration-metadata = { module = "org.springframework.cloud:spring-cloud-dataflow-configuration-metadata", version.ref = "springCloudDataflowVersion" }
+spring-core = { module = "org.springframework:spring-core", version.ref = "springFrameworkVersion" }
+
+[plugins]
+version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "versionCatalogUpdateVersion" }
+ben-manes-versions = { id = "com.github.ben-manes.versions", version.ref = "versionsVersion" }
