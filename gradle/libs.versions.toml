@@ -1,0 +1,68 @@
+[versions]
+awaitilityVersion = "4.2.0"
+gemfireTestcontainersVersion = "1.1"
+hibernateVersion = "6.2.5.Final"
+jacksonVersion = "2.15.3"
+javaCfenvBootVersion = "2.4.2"
+jsonVersion = "20200518"
+jUnitVersion = "5.9.3"
+kafkaTestVersion = "2.8.11"
+lombokPluginVersion = "8.0.1"
+lombokVersion = "1.18.30"
+prometheusRsocketSpringVersion = "1.4.0"
+reactorTestVersion = "3.4.35"
+springBootPluginVersion = "2.7.18"
+springBootVersion = "2.7.18"
+springCloudVersion = "2021.0.8"
+springCloudServicesStarterConfigClientVersion = "3.5.5"
+springCloudStreamsApplicationVersion = "3.2.1"
+springCloudStreamsVersion = "3.2.10"
+springFrameworkVersion = "5.3.31"
+testcontainersVersion = "1.18.3"
+validationApiVersion = "2.0.1.Final"
+versionCatalogUpdateVersion = "0.8.3"
+versionsVersion = "0.50.0"
+wavefrontSpringBootBomVersion = "2.2.2"
+
+[libraries]
+awaitility = { module = "org.awaitility:awaitility", version.ref = "awaitilityVersion" }
+gemfire-core = { module = "com.vmware.gemfire:geode-core", version.ref = "gemfireVersion" }
+gemfire-cq = { module = "com.vmware.gemfire:geode-cq", version.ref = "gemfireVersion" }
+hibernate-validator = { module = "org.hibernate:hibernate-validator", version.ref = "hibernateVersion" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jacksonVersion" }
+java-cfenv-boot = { module = "io.pivotal.cfenv:java-cfenv-boot", version.ref = "javaCfenvBootVersion" }
+org-json = { module = "org.json:json", version.ref = "jsonVersion" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "jUnitVersion" }
+kafka-test = { module = "org.springframework.kafka:spring-kafka-test", version.ref = "kafkaTestVersion" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombokVersion" }
+prometheus-rsocket-spring = { module = "io.micrometer.prometheus:prometheus-rsocket-spring", version.ref = "prometheusRsocketSpringVersion" }
+reactor-test = { module = "io.projectreactor:reactor-test", version.ref = "reactorTestVersion" }
+spring-boot-configuration-processor = { module = "org.springframework.boot:spring-boot-configuration-processor", version.ref = "springBootVersion" }
+spring-boot-dependencies-bom={module="org.springframework.boot:spring-boot-dependencies", version.ref="springBootVersion"}
+spring-boot-gemfire = { module = "com.vmware.gemfire:spring-boot-2.7-gemfire-9.15", version.ref = "springBootGemFireVersion" }
+spring-boot-gemfire-logging = { module = "com.vmware.gemfire:spring-boot-logging-2.7-gemfire-9.15", version.ref = "springBootGemFireVersion" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBootVersion" }
+spring-cloud-dependencies-bom = { module = "org.springframework.cloud:spring-cloud-dependencies", version.ref = "springCloudVersion" }
+spring-cloud-services-starter-config-client = { module = "io.pivotal.spring.cloud:spring-cloud-services-starter-config-client", version.ref = "springCloudServicesStarterConfigClientVersion" }
+spring-cloud-stream = { module = "org.springframework.cloud:spring-cloud-stream", version.ref = "springCloudStreamsVersion" }
+spring-cloud-stream-applications-core = { module = "org.springframework.cloud.stream.app:stream-applications-core", version.ref = "springCloudStreamsApplicationVersion" }
+spring-cloud-stream-binder-kafka = { module = "org.springframework.cloud:spring-cloud-stream-binder-kafka", version.ref = "springCloudStreamsVersion" }
+spring-cloud-stream-binder-test = { module = "org.springframework.cloud:spring-cloud-stream-binder-test", version.ref = "springCloudStreamsVersion" }
+spring-data-gemfire = { module = "com.vmware.gemfire:spring-data-2.7-gemfire-9.15", version.ref = "springDataGemFireVersion" }
+spring-framework-bom = { module = "org.springframework:spring-framework-bom", version.ref = "springFrameworkVersion" }
+spring-integration-gemfire = { module = "com.vmware.gemfire:spring-integration-5.5-gemfire-9.15", version.ref = "springIntegrationGemFireVersion" }
+stream-applications-micrometer-common = { module = "org.springframework.cloud.stream.app:stream-applications-micrometer-common", version.ref = "springCloudStreamsApplicationVersion" }
+stream-applications-postprocessor-common = { module = "org.springframework.cloud.stream.app:stream-applications-postprocessor-common", version.ref = "springCloudStreamsApplicationVersion" }
+stream-applications-security-common = { module = "org.springframework.cloud.stream.app:stream-applications-security-common", version.ref = "springCloudStreamsApplicationVersion" }
+testcontainers = { module = "com.vmware.gemfire:gemfire-testcontainers", version.ref = "gemfireTestcontainersVersion" }
+testcontainers-dependencies-bom={module="org.testcontainers:testcontainers-bom", version.ref="testcontainersVersion"}
+testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainersVersion" }
+testcontainers-kafka = { module = "org.testcontainers:kafka", version.ref = "testcontainersVersion" }
+validation-api = { module = "javax.validation:validation-api", version.ref = "validationApiVersion" }
+wavefront-spring-boot-bom = { module = "com.wavefront:wavefront-spring-boot-bom", version.ref = "wavefrontSpringBootBomVersion" }
+
+[plugins]
+lombok = { id = "io.freefair.lombok", version.ref = "lombokPluginVersion"}
+spring-boot = { id = "org.springframework.boot", version.ref = "springBootPluginVersion" }
+version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "versionCatalogUpdateVersion" }
+ben-manes-versions = { id = "com.github.ben-manes.versions", version.ref = "versionsVersion" }
