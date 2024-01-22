@@ -2,7 +2,7 @@
 awaitilityVersion = "4.2.0"
 gemfireTestcontainersVersion = "1.1"
 hibernateVersion = "6.2.5.Final"
-jacksonVersion = "2.15.3"
+jacksonVersion = "2.13.5"
 javaCfenvBootVersion = "2.4.2"
 jsonVersion = "20200518"
 jUnitVersion = "5.9.3"
@@ -29,6 +29,7 @@ awaitility = { module = "org.awaitility:awaitility", version.ref = "awaitilityVe
 gemfire-core = { module = "com.vmware.gemfire:geode-core", version.ref = "gemfireVersion" }
 gemfire-cq = { module = "com.vmware.gemfire:geode-cq", version.ref = "gemfireVersion" }
 hibernate-validator = { module = "org.hibernate:hibernate-validator", version.ref = "hibernateVersion" }
+jackson-dependencies-bom = { module = "com.fasterxml.jackson:jackson-bom", version.ref = "jacksonVersion" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jacksonVersion" }
 java-cfenv-boot = { module = "io.pivotal.cfenv:java-cfenv-boot", version.ref = "javaCfenvBootVersion" }
 org-json = { module = "org.json:json", version.ref = "jsonVersion" }

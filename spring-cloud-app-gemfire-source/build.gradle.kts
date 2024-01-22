@@ -1,9 +1,9 @@
 plugins {
-    id("java-library")
-    id("idea")
-    id("eclipse")
-    alias(libs.plugins.lombok)
-    id("gemfire-repo-artifact-publishing")
+  id("java-library")
+  id("idea")
+  id("eclipse")
+  alias(libs.plugins.lombok)
+  id("gemfire-repo-artifact-publishing")
   id("gemfire-repos-plugin")
 }
 
@@ -14,14 +14,14 @@ configurations.create("compileJava").apply {
 }
 
 java {
-    withJavadocJar()
-    withSourcesJar()
-    toolchain{ languageVersion.set(JavaLanguageVersion.of(8))}
+  withJavadocJar()
+  withSourcesJar()
+  toolchain { languageVersion.set(JavaLanguageVersion.of(8)) }
 }
 
 tasks.named<Javadoc>("javadoc") {
-    title = "Spring Cloud Stream App Source for VMware GemFire ${getGemFireBaseVersion()} Java API Reference"
-    isFailOnError=false
+  title = "Spring Cloud Stream App Source for VMware GemFire ${getGemFireBaseVersion()} Java API Reference"
+  isFailOnError = false
 }
 
 publishingDetails {
@@ -31,20 +31,20 @@ publishingDetails {
 }
 
 dependencies {
-    api(platform(libs.spring.cloud.dependencies.bom))
-    api(platform(libs.spring.boot.dependencies.bom))
-    api(platform(libs.spring.cloud.stream.applications.core))
-    api(platform(libs.testcontainers.dependencies.bom))
-    api(platform(libs.spring.framework.bom))
+  api(platform(libs.spring.cloud.dependencies.bom))
+  api(platform(libs.spring.boot.dependencies.bom))
+  api(platform(libs.spring.cloud.stream.applications.core))
+  api(platform(libs.testcontainers.dependencies.bom))
+  api(platform(libs.spring.framework.bom))
 
-    annotationProcessor(libs.spring.boot.configuration.processor)
+  annotationProcessor(libs.spring.boot.configuration.processor)
 
-    api(project(":spring-cloud-supplier-gemfire"))
+  api(project(":spring-cloud-supplier-gemfire"))
 
-    testImplementation(variantOf(libs.spring.cloud.stream) { classifier("test-binder")})
-    testImplementation(libs.spring.cloud.stream.binder.test)
-    testImplementation(libs.spring.boot.starter.test)
-    testImplementation(libs.testcontainers)
+  testImplementation(variantOf(libs.spring.cloud.stream) { classifier("test-binder") })
+  testImplementation(libs.spring.cloud.stream.binder.test)
+  testImplementation(libs.spring.boot.starter.test)
+  testImplementation(libs.testcontainers)
 }
 
 fun getGemFireBaseVersion(): String {
