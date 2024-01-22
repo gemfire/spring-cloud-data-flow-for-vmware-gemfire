@@ -41,8 +41,8 @@ tasks.register<Jar>("metadataJar") {
 publishing {
   publications {
     create<MavenPublication>("publication") {
-      artifact("metadataJar")
-      artifact("bootJar")
+      artifact(tasks.named("metadataJar"))
+      artifact(tasks.named("bootJar"))
     }
   }
 }

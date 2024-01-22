@@ -40,13 +40,14 @@ tasks.register<Jar>("metadataJar") {
 publishing {
     publications {
         create<MavenPublication>("publication") {
-            artifact("metadataJar")
-            artifact("bootJar")
+            artifact(tasks.named("metadataJar"))
+            artifact(tasks.named("bootJar"))
         }
     }
 }
 
-tasks.getByName("publish").dependsOn("metadataJar")
+tasks.getByName("publish").dependsOn(tasks.named("metadataJar"))
+tasks.getByName("publish").dependsOn(tasks.named("bootJar"))
 
 configurations.create("compileJava").apply {
     extendsFrom(configurations.annotationProcessor.get())
