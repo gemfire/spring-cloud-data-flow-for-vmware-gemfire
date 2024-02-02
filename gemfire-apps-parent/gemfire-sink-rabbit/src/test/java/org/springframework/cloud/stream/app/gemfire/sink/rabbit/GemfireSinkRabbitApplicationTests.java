@@ -22,15 +22,16 @@ public class GemfireSinkRabbitApplicationTests {
 
 	@BeforeAll
 	static void setup() throws IOException {
-		gemFireClusterContainer = new GemFireClusterContainer(1,"gemfire/gemfire:9.15.9");
+
+		gemFireClusterContainer = new GemFireClusterContainer(1, "gemfire/gemfire:9.15.10");
 
 		gemFireClusterContainer.acceptLicense().start();
-
 		gemFireClusterContainer.gfsh(
 				false,
 				"create region --name=Test --type=REPLICATE");
 
-		System.setProperty("gemfire.pool.hostAddresses",gemFireClusterContainer.getHost()+":"+gemFireClusterContainer.getLocatorPort());
+		System.setProperty("gemfire.pool.subscriptionEnabled", "true");
+		System.setProperty("gemfire.pool.hostAddresses", gemFireClusterContainer.getHost() + ":" + gemFireClusterContainer.getLocatorPort());
 	}
 
 	@AfterAll
@@ -40,7 +41,6 @@ public class GemfireSinkRabbitApplicationTests {
 			gemFireClusterContainer.close();
 		}
 	}
-
 
 	@Test
 	public void contextLoads() {

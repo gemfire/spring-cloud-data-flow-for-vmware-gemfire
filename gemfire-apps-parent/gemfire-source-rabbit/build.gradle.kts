@@ -44,7 +44,7 @@ publishing {
 
 tasks.getByName("publish").dependsOn(tasks.named("metadataJar"))
 tasks.getByName("publish").dependsOn(tasks.named("bootJar"))
-tasks.getByName("bootJar").dependsOn(tasks.named("generateMetadata"))
+tasks.getByName("bootJar").dependsOn(tasks.named("metadataJar"))
 
 
 
@@ -75,7 +75,7 @@ tasks.getByName("publish") {
 
 tasks.named<BootBuildImage>("bootBuildImage") {
   builder = "paketobuildpacks/builder-jammy-base:latest"
-  imageName = "udo774/$projectArchiveName:${project.version}"
+  imageName = "${property("dockerUserName")}/$projectArchiveName:${project.version}"
   environment(
     mapOf(
       "BP_JVM_VERSION" to "8",

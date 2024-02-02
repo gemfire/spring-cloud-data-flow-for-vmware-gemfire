@@ -28,8 +28,8 @@ val projectArchiveName = "gemfire-sink-rabbit"
 
 publishingDetails {
     artifactName.set(projectArchiveName)
-    longName.set("Spring Cloud Dataflow Source for VMware GemFire")
-    description.set("Spring Cloud Dataflow Source for VMware GemFire using Rabbit as a binder")
+    longName.set("Spring Cloud Dataflow Sink for VMware GemFire")
+    description.set("Spring Cloud Dataflow Sink for VMware GemFire using Rabbit as a binder")
 }
 
 tasks.register<Jar>("metadataJar") {
@@ -49,7 +49,7 @@ publishing {
 
 tasks.getByName("publish").dependsOn(tasks.named("metadataJar"))
 tasks.getByName("publish").dependsOn(tasks.named("bootJar"))
-tasks.getByName("bootJar").dependsOn(tasks.named("generateMetadata"))
+tasks.getByName("bootJar").dependsOn(tasks.named("metadataJar"))
 
 
 
@@ -80,7 +80,7 @@ tasks.getByName("publish") {
 
 tasks.named<BootBuildImage>("bootBuildImage") {
     builder = "paketobuildpacks/builder-jammy-base:latest"
-    imageName = "udo774/$projectArchiveName:${project.version}"
+    imageName = "${property("dockerUserName")}/$projectArchiveName:${project.version}"
     environment(mapOf("BP_JVM_VERSION" to "8",
         "BPE_APPEND_JDK_JAVA_OPTIONS" to "-Dfile.encoding=UTF-8",
         "BPE_APPEND_JDK_JAVA_OPTIONS" to "-Dsun.jnu.encoding",

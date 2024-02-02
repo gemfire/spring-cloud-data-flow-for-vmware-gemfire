@@ -44,7 +44,7 @@ publishing {
 
 tasks.getByName("publish").dependsOn(tasks.named("metadataJar"))
 tasks.getByName("publish").dependsOn(tasks.named("bootJar"))
-tasks.getByName("bootJar").dependsOn(tasks.named("generateMetadata"))
+tasks.getByName("bootJar").dependsOn(tasks.named("metadataJar"))
 
 configurations.create("compileJava").apply {
   extendsFrom(configurations.annotationProcessor.get())

@@ -77,8 +77,6 @@ public abstract class GenerateMetadataTask extends DefaultTask {
 
     inputFiles.addAll(getProject().getTasks().getByName("jar").getOutputs().getFiles().getFiles());
 
-    System.err.println("inputFiles = " + inputFiles);
-
     ConfigurationMetadata configurationMetadata = gatherConfigurationMetadata(inputFiles, null);
 
     JavaPluginExtension javaPluginExtension = getProject().getExtensions().getByType(JavaPluginExtension.class);
