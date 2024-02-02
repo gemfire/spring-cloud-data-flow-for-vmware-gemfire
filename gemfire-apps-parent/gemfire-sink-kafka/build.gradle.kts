@@ -70,7 +70,8 @@ dependencies {
 
 tasks.named<BootBuildImage>("bootBuildImage") {
   builder = "paketobuildpacks/builder-jammy-base:latest"
-  imageName = "${property("dockerUserName")}/${projectArchiveName}:${project.version}"
+  val dockerUsername = project.properties["dockerUserName"] ?: "gemfire"
+  imageName = "$dockerUsername/$projectArchiveName:${project.version}"
   environment(mapOf("BP_JVM_VERSION" to "8",
     "BPE_APPEND_JDK_JAVA_OPTIONS" to "-Dfile.encoding=UTF-8",
     "BPE_APPEND_JDK_JAVA_OPTIONS" to "-Dsun.jnu.encoding",
