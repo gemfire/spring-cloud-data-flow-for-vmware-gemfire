@@ -32,41 +32,10 @@ configurations.create("compileJava").apply {
 }
 
 dependencies {
-    api(platform(libs.spring.cloud.dependencies.bom))
-    api(platform(libs.spring.boot.dependencies.bom))
-    api(platform(libs.spring.cloud.stream.applications.core))
-    api(platform(libs.testcontainers.dependencies.bom))
-    api(platform(libs.spring.framework.bom))
 
     annotationProcessor(libs.spring.boot.configuration.processor)
 
     api(project(":spring-cloud-common-gemfire"))
-
-    implementation(libs.spring.data.gemfire) {
-        exclude("org.springframework")
-        exclude(module = "shiro-event")
-        exclude(module = "shiro-lang")
-        exclude(module = "shiro-crypto-hash")
-        exclude(module = "shiro-crypto-cipher")
-        exclude(module = "shiro-config-ogdl")
-        exclude(module = "shiro-config-core")
-        exclude(module = "shiro-cache")
-        exclude(module = "commons-logging")
-    }
-    compileOnly(libs.gemfire.core) {
-        exclude(module = "commons-logging")
-    }
-    compileOnly(libs.gemfire.cq)
-
-    implementation(libs.org.json)
-    implementation(libs.spring.integration.gemfire)
-
-    implementation(libs.spring.boot.gemfire)
-    implementation(libs.spring.boot.gemfire.logging)
-    implementation(libs.lombok)
-
-    implementation(libs.validation.api)
-    implementation(libs.hibernate.validator)
 
     testImplementation(libs.jackson.databind)
 

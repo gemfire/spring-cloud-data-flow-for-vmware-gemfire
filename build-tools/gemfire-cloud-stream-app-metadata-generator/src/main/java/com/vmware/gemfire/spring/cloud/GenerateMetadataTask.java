@@ -5,6 +5,7 @@
 
 package com.vmware.gemfire.spring.cloud;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
@@ -61,8 +62,22 @@ public abstract class GenerateMetadataTask extends DefaultTask {
   public void doWork() {
 
     Set<FileSystemLocation> fileSystemLocations = getInputFiles().get();
-    Set<File> inputFiles = fileSystemLocations.stream().map(fileSystemLocation -> fileSystemLocation.getAsFile()).collect(Collectors.toSet());
+    Set<File> inputFiles = fileSystemLocations.stream()
+        .filter(fileSystemLocation -> {
+          String fileString = fileSystemLocation.getAsFile().toString();
+          return
+              (fileString.contains("spring-cloud-app-gemfire") ||
+                  fileString.contains("spring-cloud-consumer-gemfire") ||
+                  fileString.contains("spring-cloud-supplier-gemfire") ||
+                  fileString.contains("spring-cloud-app-gemfire-sink") ||
+                  fileString.contains("spring-cloud-app-gemfire-source") ||
+                  fileString.contains("spring-cloud-common-gemfire"));
+        })
+        .map(fileSystemLocation -> fileSystemLocation.getAsFile()).collect(Collectors.toSet());
+
     inputFiles.addAll(getProject().getTasks().getByName("jar").getOutputs().getFiles().getFiles());
+
+    System.err.println("inputFiles = " + inputFiles);
 
     ConfigurationMetadata configurationMetadata = gatherConfigurationMetadata(inputFiles, null);
 
@@ -83,6 +98,7 @@ public abstract class GenerateMetadataTask extends DefaultTask {
           File localMetadata = new File(inputFile, METADATA_PATH);
           if (localMetadata.canRead()) {
             try (InputStream is = new FileInputStream(localMetadata)) {
+              System.err.println("localMetadata = " + localMetadata);
               ConfigurationMetadata depMetadata = jsonMarshaller.read(is);
               depMetadata = filterMetadata(depMetadata, metadataFilter);
               addEnumHints(depMetadata, classLoader);
@@ -399,8 +415,15 @@ public abstract class GenerateMetadataTask extends DefaultTask {
     writePropertiesToFile(result.getPortMappingProperties(), metadataMetaInfPath.resolve(SPRING_CLOUD_DATAFLOW_OPTION_GROUPS_PROPERTIES).toFile());
     writePropertiesToFile(new Properties(), metadataMetaInfPath.resolve(SPRING_CLOUD_DATAFLOW_PORT_MAPPING_PROPERTIES).toFile());
 
-    try (FileOutputStream fileOutputStream = new FileOutputStream(metadataBasePath.resolve(METADATA_PATH).toFile())) {
-      jsonMarshaller.write(result.metadata, fileOutputStream);
+    String metadataPropertiesPath = project.getLayout().getBuildDirectory().getAsFile().get().toPath().resolve("resources/main/META-INF").resolve("spring-configuration-metadata-encoded.properties").toString();
+
+    try (FileWriter fileWriter = new FileWriter(metadataPropertiesPath)) {
+      try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+        jsonMarshaller.write(result.metadata, byteArrayOutputStream);
+        String json = byteArrayOutputStream.toString();
+        json = json.replaceAll("\\$\\{", "{");
+        fileWriter.write("org.springframework.cloud.dataflow.spring.configuration.metadata.json=" + StringEscapeUtils.escapeJson(json));
+      }
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

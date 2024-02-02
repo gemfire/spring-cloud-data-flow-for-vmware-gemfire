@@ -7,3 +7,4 @@ build
 **/.mvn/
 **/*.iml
 target
+**/LOG_FILE_IS_UNDEFINED

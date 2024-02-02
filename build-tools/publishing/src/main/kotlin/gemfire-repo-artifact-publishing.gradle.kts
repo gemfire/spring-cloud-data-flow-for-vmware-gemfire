@@ -8,6 +8,7 @@ import org.gradle.jvm.tasks.Jar
 
 plugins {
   id("maven-publish")
+  id("java-library")
 }
 
 // The published bom will constrain versions within gemfire of any subproject with this property set.
@@ -17,6 +18,12 @@ val license = """
   Copyright (c) VMware, Inc. 2023-2024. All rights reserved.
   SPDX-License-Identifier: Apache-2.0
   """
+
+java {
+  withJavadocJar()
+  withSourcesJar()
+  toolchain { languageVersion.set(JavaLanguageVersion.of(8)) }
+}
 
 val publishingDetails = project.extensions.create<ManifestExtension>("publishingDetails")
 
@@ -93,3 +100,13 @@ gradle.taskGraph.whenReady {
     }
   }
 }
+
+//tasks.named<BootBuildImage>("bootBuildImage") {
+//  builder = "paketobuildpacks/builder-jammy-base:latest"
+//  imageName = "udo774/gemfire-sink-kafka:${project.version}"
+//  environment(mapOf("BP_JVM_VERSION" to "8",
+//    "BPE_APPEND_JDK_JAVA_OPTIONS" to "-Dfile.encoding=UTF-8",
+//    "BPE_APPEND_JDK_JAVA_OPTIONS" to "-Dsun.jnu.encoding",
+//    "BPE_LC_ALL" to "en_US.utf8",
+//    "BPE_LANG" to "en_US.utf8"))
+//}

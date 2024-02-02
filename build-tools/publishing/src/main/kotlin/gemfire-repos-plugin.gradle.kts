@@ -3,6 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/*
+ * Copyright (c) VMware, Inc. 2024. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 tasks.withType<Test> {
   useJUnitPlatform()
 }

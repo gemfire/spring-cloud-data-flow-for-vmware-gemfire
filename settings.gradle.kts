@@ -25,7 +25,7 @@ dependencyResolutionManagement {
   versionCatalogs {
     create("libs") {
       val properties = Properties()
-      properties.load(FileInputStream("gradle.properties"))
+      properties.load(FileInputStream(layout.rootDirectory.asFile.toPath().resolve("gradle.properties").toFile()))
       versionOverrideFromProperties(this, properties)
     }
   }

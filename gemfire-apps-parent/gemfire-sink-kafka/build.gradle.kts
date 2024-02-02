@@ -14,28 +14,23 @@ plugins {
 
 group = "com.vmware.gemfire.spring.cloud.stream.app"
 
-java {
-  withJavadocJar()
-  withSourcesJar()
-  toolchain { languageVersion.set(JavaLanguageVersion.of(8)) }
-}
-
 tasks.named<Javadoc>("javadoc") {
   title = "Spring Cloud Dataflow Sink for VMware GemFire Java API Reference"
   isFailOnError = false
 }
 
+val projectArchiveName = "gemfire-sink-kafka"
+
 publishingDetails {
-  artifactName.set("gemfire-sink-kafka")
-  longName.set("Spring Cloud Dataflow Sink for VMware GemFire")
-  description.set("Spring Cloud Dataflow Sink for VMware GemFire using Kafka as a binder")
+  artifactName.set(projectArchiveName)
+  longName.set("Spring Cloud Dataflow Source for VMware GemFire")
+  description.set("Spring Cloud Dataflow Source for VMware GemFire using Kafka as a binder")
 }
 
 tasks.register<Jar>("metadataJar") {
   from(project.layout.buildDirectory.dir("generated/metadata"))
   archiveClassifier.set("metadata")
   dependsOn("generateMetadata")
-  dependsOn("bootJar")
 }
 
 publishing {
@@ -49,6 +44,7 @@ publishing {
 
 tasks.getByName("publish").dependsOn(tasks.named("metadataJar"))
 tasks.getByName("publish").dependsOn(tasks.named("bootJar"))
+tasks.getByName("bootJar").dependsOn(tasks.named("generateMetadata"))
 
 configurations.create("compileJava").apply {
   extendsFrom(configurations.annotationProcessor.get())
@@ -74,4 +70,10 @@ dependencies {
 
 tasks.named<BootBuildImage>("bootBuildImage") {
   builder = "paketobuildpacks/builder-jammy-base:latest"
+  imageName = "${property("dockerUserName")}/${projectArchiveName}:${project.version}"
+  environment(mapOf("BP_JVM_VERSION" to "8",
+    "BPE_APPEND_JDK_JAVA_OPTIONS" to "-Dfile.encoding=UTF-8",
+    "BPE_APPEND_JDK_JAVA_OPTIONS" to "-Dsun.jnu.encoding",
+    "BPE_LC_ALL" to "en_US.utf8",
+    "BPE_LANG" to "en_US.utf8"))
 }

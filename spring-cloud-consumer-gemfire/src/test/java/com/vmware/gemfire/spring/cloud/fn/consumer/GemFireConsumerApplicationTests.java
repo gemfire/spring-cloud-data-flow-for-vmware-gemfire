@@ -36,7 +36,7 @@ public class GemFireConsumerApplicationTests {
 
 	@BeforeAll
 	static void setup() throws IOException {
-		gemFireClusterContainer = new GemFireClusterContainer(1, "gemfire/gemfire:9.15.9");
+		gemFireClusterContainer = new GemFireClusterContainer(1, "gemfire/gemfire:9.15.10");
 
 		gemFireClusterContainer.acceptLicense().start();
 

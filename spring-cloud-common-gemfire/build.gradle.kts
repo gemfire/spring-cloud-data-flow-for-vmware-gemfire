@@ -57,13 +57,14 @@ dependencies {
   }
   api(libs.gemfire.cq)
 
-  implementation(libs.org.json)
-  implementation(libs.spring.integration.gemfire)
+  api(libs.org.json)
+  api(libs.spring.integration.gemfire)
 
-  implementation(libs.spring.boot.gemfire)
-  implementation(libs.spring.boot.gemfire.logging)
-  implementation(libs.lombok)
-  implementation(libs.validation.api)
+  api(libs.spring.boot.gemfire)
+  api(libs.spring.boot.gemfire.logging)
+  api(libs.lombok)
+  api(libs.validation.api)
+  api(libs.hibernate.validator)
 
   testImplementation(libs.spring.boot.starter.test)
 

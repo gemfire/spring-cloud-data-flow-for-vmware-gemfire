@@ -1,5 +1,3 @@
-import org.springframework.boot.gradle.tasks.bundling.BootJar
-
 plugins {
   id("java-library")
   id("idea")
@@ -34,25 +32,9 @@ publishingDetails {
 
 dependencies {
 
-    api(platform(libs.spring.cloud.dependencies.bom))
-    api(platform(libs.spring.boot.dependencies.bom))
-    api(platform(libs.spring.cloud.stream.applications.core))
-    api(platform(libs.testcontainers.dependencies.bom))
-    api(platform(libs.spring.framework.bom))
-
     annotationProcessor(libs.spring.boot.configuration.processor)
 
     api(project(":spring-cloud-common-gemfire"))
-
-    implementation(libs.org.json)
-    implementation(libs.spring.integration.gemfire)
-
-    implementation(libs.spring.boot.gemfire)
-    implementation(libs.spring.boot.gemfire.logging)
-    implementation(libs.lombok)
-
-    implementation(libs.validation.api)
-    implementation(libs.hibernate.validator)
 
     testImplementation(libs.jackson.databind)
 

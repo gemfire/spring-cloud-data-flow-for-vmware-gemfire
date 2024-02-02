@@ -8,3 +8,7 @@ repositories {
   mavenCentral()
   gradlePluginPortal()
 }
+
+dependencies{
+
+}

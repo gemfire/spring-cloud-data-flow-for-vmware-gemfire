@@ -31,6 +31,7 @@ publishingDetails {
 }
 
 dependencies {
+
   api(platform(libs.spring.cloud.dependencies.bom))
   api(platform(libs.spring.boot.dependencies.bom))
   api(platform(libs.spring.cloud.stream.applications.core))

@@ -13,6 +13,7 @@ dependencies {
     implementation(libs.spring.boot.configuration.processor)
     implementation(libs.spring.core)
     implementation(libs.spring.beans)
+    implementation(libs.apache.commons.text)
 }
 
 gradlePlugin {
