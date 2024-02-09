@@ -8,7 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vmware.gemfire.spring.cloud.fn.common.JsonPdxFunctions;
 import com.vmware.gemfire.spring.cloud.fn.supplier.GemFireSupplierConfiguration;
-import com.vmware.gemfire.testcontainers.GemFireClusterContainer;
+import com.vmware.gemfire.testcontainers.GemFireCluster;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,7 +37,7 @@ public class GemFireSourceTests {
 
 	private static ApplicationContextRunner applicationContextRunner;
 
-	private static GemFireClusterContainer gemFireClusterContainer;
+	private static GemFireCluster gemFireCluster;
 
 
 	private ObjectMapper objectMapper = new ObjectMapper();
@@ -45,11 +45,11 @@ public class GemFireSourceTests {
 	@BeforeAll
 	static void setup() throws IOException {
 
-		gemFireClusterContainer = new GemFireClusterContainer(1, "gemfire/gemfire:9.15.10");
+		gemFireCluster = new GemFireCluster( "gemfire/gemfire:9.15.10",1,1);
 
-		gemFireClusterContainer.acceptLicense().start();
+		gemFireCluster.acceptLicense().start();
 
-		gemFireClusterContainer.gfsh(
+		gemFireCluster.gfsh(
 				false,
 				"create region --name=myRegion --type=REPLICATE");
 
@@ -61,7 +61,7 @@ public class GemFireSourceTests {
 
 	@AfterAll
 	static void stopServer() {
-		gemFireClusterContainer.close();
+		gemFireCluster.close();
 	}
 
 	@Test
@@ -70,7 +70,7 @@ public class GemFireSourceTests {
 				.withPropertyValues("gemfire.region.regionName=myRegion",
 						"gemfire.supplier.event-expression=key+':'+newValue",
 						"gemfire.pool.connectType=locator",
-						"gemfire.pool.hostAddresses=" + gemFireClusterContainer.getHost()+":" + gemFireClusterContainer.getLocatorPort(),
+						"gemfire.pool.hostAddresses=localhost:" + gemFireCluster.getLocatorPort(),
 						"spring.cloud.function.definition=gemfireSupplier")
 				.run(context -> {
 
@@ -102,7 +102,7 @@ public class GemFireSourceTests {
 						"gemfire.client.pdx-read-serialized=true",
 						"gemfire.supplier.query=Select * from /myRegion where symbol='XXX' and price > 140",
 						"gemfire.pool.connectType=locator",
-						"gemfire.pool.hostAddresses=" + gemFireClusterContainer.getHost()+":" + gemFireClusterContainer.getLocatorPort())
+						"gemfire.pool.hostAddresses=localhost:" + gemFireCluster.getLocatorPort())
 				.run(context -> {
 					OutputDestination outputDestination = context.getBean(OutputDestination.class);
 					// Using local region here

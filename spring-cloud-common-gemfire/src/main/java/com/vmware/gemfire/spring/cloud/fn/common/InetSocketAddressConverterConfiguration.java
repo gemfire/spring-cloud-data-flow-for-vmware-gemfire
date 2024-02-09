@@ -5,6 +5,8 @@
 
 package com.vmware.gemfire.spring.cloud.fn.common;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.converter.Converter;
@@ -21,6 +23,7 @@ public class InetSocketAddressConverterConfiguration {
 	}
 
 	public static class InetSocketAddressConverter implements Converter<String, InetSocketAddress> {
+		private static Logger logger = LoggerFactory.getLogger(InetSocketAddressConverter.class);
 
 		private static final Pattern HOST_AND_PORT_PATTERN = Pattern.compile("^\\s*(.*?):(\\d+)\\s*$");
 

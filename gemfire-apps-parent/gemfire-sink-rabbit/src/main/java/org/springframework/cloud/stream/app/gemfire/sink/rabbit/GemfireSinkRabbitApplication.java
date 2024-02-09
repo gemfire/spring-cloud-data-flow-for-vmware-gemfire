@@ -6,6 +6,7 @@
 package org.springframework.cloud.stream.app.gemfire.sink.rabbit;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
@@ -15,6 +16,8 @@ import org.springframework.context.annotation.Import;
 public class GemfireSinkRabbitApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GemfireSinkRabbitApplication.class, args);
+		SpringApplication springApplication = new SpringApplication();
+		springApplication.setWebApplicationType(WebApplicationType.NONE);
+		springApplication.run(GemfireSinkRabbitApplication.class,args);
 	}
 }

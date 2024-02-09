@@ -10,7 +10,7 @@ plugins {
 group = "com.vmware.gemfire.spring.cloud"
 
 configurations.create("compileJava").apply {
-    extendsFrom(configurations.annotationProcessor.get())
+  extendsFrom(configurations.annotationProcessor.get())
 }
 
 java {
@@ -20,8 +20,8 @@ java {
 }
 
 tasks.named<Javadoc>("javadoc") {
-    title = "Spring Cloud Dataflow Supplier 2021.0 for VMware GemFire ${getGemFireBaseVersion()} Java API Reference"
-    isFailOnError=false
+  title = "Spring Cloud Dataflow Supplier 2021.0 for VMware GemFire ${getGemFireBaseVersion()} Java API Reference"
+  isFailOnError = false
 }
 
 publishingDetails {
@@ -32,18 +32,19 @@ publishingDetails {
 
 dependencies {
 
-    annotationProcessor(libs.spring.boot.configuration.processor)
+  annotationProcessor(libs.spring.boot.configuration.processor)
 
-    api(project(":spring-cloud-common-gemfire"))
+  api(project(":spring-cloud-common-gemfire"))
 
-    testImplementation(libs.jackson.databind)
+  testImplementation(libs.jackson.databind)
+  testImplementation(libs.spring.boot.gemfire)
+  testImplementation(libs.spring.boot.gemfire.logging)
+  testImplementation(libs.spring.boot.starter.test)
 
-    testImplementation(libs.spring.boot.starter.test)
-
-    testImplementation(platform(libs.junit.bom))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation(libs.testcontainers)
-    testImplementation(libs.reactor.test)
+  testImplementation(platform(libs.junit.bom))
+  testImplementation("org.junit.jupiter:junit-jupiter")
+  testImplementation(libs.testcontainers.gemfire)
+  testImplementation(libs.reactor.test)
 }
 
 fun getGemFireBaseVersion(): String {

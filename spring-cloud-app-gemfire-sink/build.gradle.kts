@@ -45,7 +45,7 @@ dependencies {
   testImplementation(variantOf(libs.spring.cloud.stream) { classifier("test-binder") })
   testImplementation(libs.spring.cloud.stream.binder.test)
   testImplementation(libs.spring.boot.starter.test)
-  testImplementation(libs.testcontainers)
+  testImplementation(libs.testcontainers.gemfire)
 }
 
 fun getGemFireBaseVersion(): String {

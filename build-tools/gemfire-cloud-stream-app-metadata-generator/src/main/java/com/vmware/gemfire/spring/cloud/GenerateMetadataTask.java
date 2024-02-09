@@ -96,7 +96,6 @@ public abstract class GenerateMetadataTask extends DefaultTask {
           File localMetadata = new File(inputFile, METADATA_PATH);
           if (localMetadata.canRead()) {
             try (InputStream is = new FileInputStream(localMetadata)) {
-              System.err.println("localMetadata = " + localMetadata);
               ConfigurationMetadata depMetadata = jsonMarshaller.read(is);
               depMetadata = filterMetadata(depMetadata, metadataFilter);
               addEnumHints(depMetadata, classLoader);

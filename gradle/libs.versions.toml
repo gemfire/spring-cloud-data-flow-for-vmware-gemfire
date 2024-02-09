@@ -1,6 +1,6 @@
 [versions]
 awaitilityVersion = "4.2.0"
-gemfireTestcontainersVersion = "1.1"
+gemfireTestcontainersVersion = "2.0.0"
 hibernateVersion = "6.2.5.Final"
 jacksonVersion = "2.13.5"
 javaCfenvBootVersion = "2.4.2"
@@ -55,7 +55,7 @@ spring-integration-gemfire = { module = "com.vmware.gemfire:spring-integration-5
 stream-applications-micrometer-common = { module = "org.springframework.cloud.stream.app:stream-applications-micrometer-common", version.ref = "springCloudStreamsApplicationVersion" }
 stream-applications-postprocessor-common = { module = "org.springframework.cloud.stream.app:stream-applications-postprocessor-common", version.ref = "springCloudStreamsApplicationVersion" }
 stream-applications-security-common = { module = "org.springframework.cloud.stream.app:stream-applications-security-common", version.ref = "springCloudStreamsApplicationVersion" }
-testcontainers = { module = "com.vmware.gemfire:gemfire-testcontainers", version.ref = "gemfireTestcontainersVersion" }
+testcontainers-gemfire = { module = "com.vmware.gemfire:gemfire-testcontainers", version.ref = "gemfireTestcontainersVersion" }
 testcontainers-dependencies-bom={module="org.testcontainers:testcontainers-bom", version.ref="testcontainersVersion"}
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainersVersion" }
 testcontainers-kafka = { module = "org.testcontainers:kafka", version.ref = "testcontainersVersion" }

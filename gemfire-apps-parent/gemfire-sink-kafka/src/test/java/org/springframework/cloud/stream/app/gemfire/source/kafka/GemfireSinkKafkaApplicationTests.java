@@ -5,7 +5,7 @@
 
 package org.springframework.cloud.stream.app.gemfire.source.kafka;
 
-import com.vmware.gemfire.testcontainers.GemFireClusterContainer;
+import com.vmware.gemfire.testcontainers.GemFireCluster;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,7 +23,7 @@ import java.time.temporal.ChronoUnit;
 
 @SpringBootTest
 public class GemfireSinkKafkaApplicationTests {
-  private static GemFireClusterContainer gemFireClusterContainer;
+  private static GemFireCluster gemFireCluster;
 
   @Container
   static final KafkaContainer kafka = new KafkaContainer(
@@ -38,15 +38,15 @@ public class GemfireSinkKafkaApplicationTests {
   @BeforeAll
   static void setup() throws IOException {
 
-    gemFireClusterContainer = new GemFireClusterContainer(1, "gemfire/gemfire:9.15.10");
+    gemFireCluster = new GemFireCluster("gemfire/gemfire:9.15.10",1,1);
 
-    gemFireClusterContainer.acceptLicense().start();
-    gemFireClusterContainer.gfsh(
+    gemFireCluster.acceptLicense().start();
+    gemFireCluster.gfsh(
         false,
         "create region --name=Test --type=REPLICATE");
 
     System.setProperty("gemfire.pool.subscriptionEnabled", "true");
-    System.setProperty("gemfire.pool.hostAddresses", gemFireClusterContainer.getHost() + ":" + gemFireClusterContainer.getLocatorPort());
+    System.setProperty("gemfire.pool.hostAddresses",  "localhost:" + gemFireCluster.getLocatorPort());
 
     kafka.start();
   }
@@ -54,8 +54,8 @@ public class GemfireSinkKafkaApplicationTests {
   @AfterAll
   static void stopServer() {
     Awaitility.await().pollDelay(Duration.of(5, ChronoUnit.SECONDS)).until(() -> true);
-    if (gemFireClusterContainer != null) {
-      gemFireClusterContainer.close();
+    if (gemFireCluster != null) {
+      gemFireCluster.close();
     }
     kafka.stop();
   }

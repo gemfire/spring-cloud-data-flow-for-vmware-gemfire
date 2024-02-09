@@ -64,4 +64,6 @@ dependencies {
     api("io.micrometer:micrometer-registry-prometheus")
     api("org.springframework.boot:spring-boot-starter-actuator")
     api("io.pivotal.cfenv:java-cfenv-boot")
+    api("org.apache.logging.log4j:log4j-to-slf4j")
+    api(libs.spring.boot.gemfire.logging)
 }
