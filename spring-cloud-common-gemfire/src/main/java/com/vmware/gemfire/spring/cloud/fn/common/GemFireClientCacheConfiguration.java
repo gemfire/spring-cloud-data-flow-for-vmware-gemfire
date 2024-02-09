@@ -8,6 +8,8 @@ package com.vmware.gemfire.spring.cloud.fn.common;
 import org.apache.geode.cache.client.ClientCache;
 import org.apache.geode.cache.client.ClientCacheFactory;
 import org.apache.geode.pdx.ReflectionBasedAutoSerializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
@@ -30,6 +32,8 @@ import java.util.Properties;
 		GemFireSslProperties.class, GemFirePoolProperties.class })
 @Import(InetSocketAddressConverterConfiguration.class)
 public class GemFireClientCacheConfiguration {
+
+	private static Logger logger = LoggerFactory.getLogger(GemFireClientCacheConfiguration.class);
 
 	private static final String SECURITY_CLIENT = "security-client-auth-init";
 
@@ -69,6 +73,7 @@ public class GemFireClientCacheConfiguration {
 
 		if (gemfirePoolProperties.getConnectType().equals(GemFirePoolProperties.ConnectType.locator)) {
 			for (InetSocketAddress address : gemfirePoolProperties.getHostAddresses()) {
+				logger.info("Adding locator host address: "+address.getHostName()+":"+address.getPort());
 				clientCacheFactory.addPoolLocator(address.getHostName(), address.getPort());
 			}
 		}

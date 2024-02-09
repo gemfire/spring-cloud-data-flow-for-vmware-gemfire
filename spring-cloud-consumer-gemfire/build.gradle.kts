@@ -37,8 +37,11 @@ dependencies {
 
     api(project(":spring-cloud-common-gemfire"))
 
-    testImplementation(libs.jackson.databind)
 
+
+    testImplementation(libs.jackson.databind)
+    testImplementation(libs.spring.boot.gemfire)
+    testImplementation(libs.spring.boot.gemfire.logging)
     testImplementation(libs.gemfire.core) {
         exclude(module = "commons-logging")
     }
@@ -47,7 +50,7 @@ dependencies {
 
     testImplementation(platform(libs.junit.bom))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation(libs.testcontainers)
+    testImplementation(libs.testcontainers.gemfire)
 }
 
 fun getGemFireBaseVersion(): String {

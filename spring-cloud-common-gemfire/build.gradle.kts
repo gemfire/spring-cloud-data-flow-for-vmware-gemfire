@@ -60,14 +60,14 @@ dependencies {
   api(libs.org.json)
   api(libs.spring.integration.gemfire)
 
-  api(libs.spring.boot.gemfire)
-  api(libs.spring.boot.gemfire.logging)
+  api("org.springframework.boot:spring-boot-starter")
   api(libs.lombok)
   api(libs.validation.api)
   api(libs.hibernate.validator)
 
   testImplementation(libs.spring.boot.starter.test)
-
+  testImplementation(libs.spring.boot.gemfire)
+  testImplementation(libs.spring.boot.gemfire.logging)
   testImplementation(platform(libs.junit.bom))
   testImplementation("org.junit.jupiter:junit-jupiter")
 }

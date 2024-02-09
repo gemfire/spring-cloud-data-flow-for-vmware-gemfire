@@ -5,7 +5,7 @@
 
 package org.springframework.cloud.stream.app.gemfire.source.rabbit;
 
-import com.vmware.gemfire.testcontainers.GemFireClusterContainer;
+import com.vmware.gemfire.testcontainers.GemFireCluster;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,27 +20,27 @@ import java.util.concurrent.TimeUnit;
 @SpringBootTest
 public class GemfireSourceRabbitApplicationTests {
 
-  private static GemFireClusterContainer gemFireClusterContainer;
+  private static GemFireCluster gemFireCluster;
 
   @BeforeAll
   static void setup() throws IOException {
-    gemFireClusterContainer = new GemFireClusterContainer(1, "gemfire/gemfire:9.15.10");
+    gemFireCluster = new GemFireCluster("gemfire/gemfire:9.15.10",1,1);
 
-    gemFireClusterContainer.acceptLicense().start();
+    gemFireCluster.acceptLicense().start();
 
-    gemFireClusterContainer.gfsh(
+    gemFireCluster.gfsh(
         false,
         "create region --name=Test --type=REPLICATE");
 
     System.setProperty("gemfire.pool.subscriptionEnabled", "true");
-    System.setProperty("gemfire.pool.hostAddresses", gemFireClusterContainer.getHost() + ":" + gemFireClusterContainer.getLocatorPort());
+    System.setProperty("gemfire.pool.hostAddresses", "localhost:" + gemFireCluster.getLocatorPort());
   }
 
   @AfterAll
   static void stopServer() {
     Awaitility.await().pollDelay(Duration.of(10, ChronoUnit.SECONDS)).timeout(15, TimeUnit.SECONDS).until(() -> true);
-    if (gemFireClusterContainer != null) {
-      gemFireClusterContainer.close();
+    if (gemFireCluster != null) {
+      gemFireCluster.close();
     }
   }
 

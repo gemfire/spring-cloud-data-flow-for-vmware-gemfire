@@ -7,7 +7,7 @@ package com.vmware.gemfire.spring.cloud.stream.app.sink;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vmware.gemfire.spring.cloud.fn.consumer.GemFireConsumerConfiguration;
-import com.vmware.gemfire.testcontainers.GemFireClusterContainer;
+import com.vmware.gemfire.testcontainers.GemFireCluster;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,17 +33,17 @@ public class GemFireSinkTests {
 
 	private static ApplicationContextRunner applicationContextRunner;
 
-	private static GemFireClusterContainer gemFireClusterContainer;
+	private static GemFireCluster gemFireCluster;
 
 	private ObjectMapper objectMapper = new ObjectMapper();
 
 	@BeforeAll
 	static void setup() throws IOException {
-		gemFireClusterContainer = new GemFireClusterContainer(1, "gemfire/gemfire:9.15.10");
+		gemFireCluster = new GemFireCluster( "gemfire/gemfire:9.15.10",1,1);
 
-		gemFireClusterContainer.acceptLicense().start();
+		gemFireCluster.acceptLicense().start();
 
-		gemFireClusterContainer.gfsh(
+		gemFireCluster.gfsh(
 				false,
 				"create region --name=Stocks --type=REPLICATE");
 
@@ -54,7 +54,7 @@ public class GemFireSinkTests {
 
 	@AfterAll
 	static void stopServer() {
-		gemFireClusterContainer.close();
+		gemFireCluster.close();
 	}
 
 	@Test
@@ -66,7 +66,7 @@ public class GemFireSinkTests {
 						"gemfire.consumer.json=true",
 						"gemfire.consumer.key-expression=payload.getField('symbol')",
 						"gemfire.pool.connectType=locator",
-						"gemfire.pool.hostAddresses=" + gemFireClusterContainer.getHost()+":" + gemFireClusterContainer.getLocatorPort())
+						"gemfire.pool.hostAddresses=localhost:" + gemFireCluster.getLocatorPort())
 				.run(context -> {
 					InputDestination inputDestination = context.getBean(InputDestination.class);
 
@@ -88,7 +88,7 @@ public class GemFireSinkTests {
 						"gemfire.region.regionName=Stocks",
 						"gemfire.consumer.key-expression='key'",
 						"gemfire.pool.connectType=locator",
-						"gemfire.pool.hostAddresses=" + gemFireClusterContainer.getHost()+":" + gemFireClusterContainer.getLocatorPort())
+						"gemfire.pool.hostAddresses=localhost:" + gemFireCluster.getLocatorPort())
 				.run(context -> {
 					InputDestination inputDestination = context.getBean(InputDestination.class);
 					inputDestination.send(new GenericMessage<>("value"));

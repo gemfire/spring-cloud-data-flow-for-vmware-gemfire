@@ -59,7 +59,7 @@ dependencies {
   testImplementation(libs.kafka.test)
   testImplementation(libs.testcontainers.kafka)
   testImplementation("org.springframework.boot:spring-boot-starter-test")
-  testImplementation(libs.testcontainers)
+  testImplementation(libs.testcontainers.gemfire)
   testImplementation(libs.testcontainers.junit.jupiter)
   testImplementation(libs.gemfire.core)
   testImplementation(libs.gemfire.cq)

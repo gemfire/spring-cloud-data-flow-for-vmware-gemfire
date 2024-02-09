@@ -6,7 +6,7 @@
 package com.vmware.gemfire.spring.cloud.fn.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vmware.gemfire.testcontainers.GemFireClusterContainer;
+import com.vmware.gemfire.testcontainers.GemFireCluster;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,21 +30,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GemFireConsumerApplicationTests {
 	private static ApplicationContextRunner applicationContextRunner;
 
-	private static GemFireClusterContainer gemFireClusterContainer;
+	private static GemFireCluster gemFireCluster;
 
 	private ObjectMapper objectMapper = new ObjectMapper();
 
 	@BeforeAll
 	static void setup() throws IOException {
-		gemFireClusterContainer = new GemFireClusterContainer(1, "gemfire/gemfire:9.15.10");
+		gemFireCluster = new GemFireCluster( "gemfire/gemfire:9.15.10",1,1);
 
-		gemFireClusterContainer.acceptLicense().start();
+		gemFireCluster.acceptLicense().start();
 
-		gemFireClusterContainer.gfsh(
+		gemFireCluster.gfsh(
 				false,
 				"create region --name=Stocks --type=REPLICATE");
 
-		System.setProperty("gemfire.locator.port",String.valueOf(gemFireClusterContainer.getLocatorPort()));
+		System.setProperty("gemfire.locator.port",String.valueOf(gemFireCluster.getLocatorPort()));
 
 		applicationContextRunner = new ApplicationContextRunner()
 				.withUserConfiguration(GemFireConsumerTestApplication.class);
@@ -52,7 +52,7 @@ public class GemFireConsumerApplicationTests {
 
 	@AfterAll
 	static void stopServer() {
-		gemFireClusterContainer.stop();
+		gemFireCluster.close();
 	}
 
 	@Test
@@ -63,7 +63,7 @@ public class GemFireConsumerApplicationTests {
 						"gemfire.consumer.json=true",
 						"gemfire.consumer.key-expression=payload.getField('symbol')",
 						"gemfire.pool.connectType=locator",
-						"gemfire.pool.hostAddresses=localhost:" + gemFireClusterContainer.getLocatorPort())
+						"gemfire.pool.hostAddresses=localhost:" + gemFireCluster.getLocatorPort())
 				.run(context -> {
 					Consumer<Message<?>> gemfireConsumer = context.getBean("gemfireConsumer", Consumer.class);
 
@@ -84,7 +84,7 @@ public class GemFireConsumerApplicationTests {
 						"gemfire.region.regionName=Stocks",
 						"gemfire.consumer.key-expression='key'",
 						"gemfire.pool.connectType=locator",
-						"gemfire.pool.hostAddresses=localhost:" + gemFireClusterContainer.getLocatorPort())
+						"gemfire.pool.hostAddresses=localhost:" + gemFireCluster.getLocatorPort())
 				.run(context -> {
 					Consumer<Message<?>> gemfireConsumer = context.getBean("gemfireConsumer", Consumer.class);
 
