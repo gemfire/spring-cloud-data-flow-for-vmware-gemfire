@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+#
+# Copyright 2024 Broadcom. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+#
+
 declare -a arr=("gemfire-sink-rabbit" "gemfire-source-rabbit" "gemfire-sink-kafka" "gemfire-source-kafka")
 
 ## now loop through the above array

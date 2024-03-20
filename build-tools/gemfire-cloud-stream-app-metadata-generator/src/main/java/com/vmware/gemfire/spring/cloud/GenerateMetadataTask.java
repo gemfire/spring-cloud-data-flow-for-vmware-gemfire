@@ -1,5 +1,5 @@
 /*
- * Copyright (c) VMware, Inc. 2023. All rights reserved.
+ * Copyright 2023-2024 Broadcom. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -28,19 +28,46 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.inject.Inject;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Properties;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import static com.vmware.gemfire.spring.cloud.MetadataGeneratorPlugin.*;
+import static com.vmware.gemfire.spring.cloud.MetadataGeneratorPlugin.CONFIGURATION_PROPERTIES_CLASSES;
+import static com.vmware.gemfire.spring.cloud.MetadataGeneratorPlugin.CONFIGURATION_PROPERTIES_INBOUND_PORTS;
+import static com.vmware.gemfire.spring.cloud.MetadataGeneratorPlugin.CONFIGURATION_PROPERTIES_NAMES;
+import static com.vmware.gemfire.spring.cloud.MetadataGeneratorPlugin.CONFIGURATION_PROPERTIES_OUTBOUND_PORTS;
+import static com.vmware.gemfire.spring.cloud.MetadataGeneratorPlugin.DEPRECATED_BACKUP_WHITELIST_PATH;
+import static com.vmware.gemfire.spring.cloud.MetadataGeneratorPlugin.DEPRECATED_WHITELIST_PATH;
+import static com.vmware.gemfire.spring.cloud.MetadataGeneratorPlugin.METADATA_PATH;
+import static com.vmware.gemfire.spring.cloud.MetadataGeneratorPlugin.SPRING_CLOUD_DATAFLOW_OPTION_GROUPS_PROPERTIES;
+import static com.vmware.gemfire.spring.cloud.MetadataGeneratorPlugin.SPRING_CLOUD_DATAFLOW_PORT_MAPPING_PROPERTIES;
+import static com.vmware.gemfire.spring.cloud.MetadataGeneratorPlugin.SPRING_CLOUD_FUNCTION_DEFINITION;
+import static com.vmware.gemfire.spring.cloud.MetadataGeneratorPlugin.SPRING_CLOUD_STREAM_FUNCTION_BINDINGS;
+import static com.vmware.gemfire.spring.cloud.MetadataGeneratorPlugin.SPRING_CLOUD_STREAM_FUNCTION_DEFINITION;
+import static com.vmware.gemfire.spring.cloud.MetadataGeneratorPlugin.VISIBLE_PROPERTIES_PATH;
 
 public abstract class GenerateMetadataTask extends DefaultTask {
 

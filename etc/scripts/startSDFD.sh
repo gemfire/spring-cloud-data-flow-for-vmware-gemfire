@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+#
+# Copyright 2024 Broadcom. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+#
+
 ./startPostGres.sh
 
 wget https://repo.maven.apache.org/maven2/org/springframework/cloud/spring-cloud-dataflow-server/2.11.1/spring-cloud-dataflow-server-2.11.1.jar
