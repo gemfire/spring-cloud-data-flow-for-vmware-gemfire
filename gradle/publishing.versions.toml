@@ -3,7 +3,7 @@ commonsTextVersion="1.11.0"
 springBootVersion = "2.7.18"
 springCloudDataflowVersion = "2.7.2"
 springFrameworkVersion = "5.3.31"
-versionCatalogUpdateVersion = "0.8.3"
+versionCatalogUpdateVersion = "0.8.4"
 versionsVersion = "0.50.0"
 
 [libraries]
