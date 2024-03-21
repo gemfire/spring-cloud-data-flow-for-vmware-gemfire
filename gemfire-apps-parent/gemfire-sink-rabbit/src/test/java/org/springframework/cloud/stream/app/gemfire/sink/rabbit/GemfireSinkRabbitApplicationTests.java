@@ -23,7 +23,7 @@ public class GemfireSinkRabbitApplicationTests {
 	@BeforeAll
 	static void setup() throws IOException {
 
-		gemFireCluster = new GemFireCluster("gemfire/gemfire:9.15.10",1,1);
+		gemFireCluster = new GemFireCluster("gemfire/gemfire:9.15.11",1,1);
 
 		gemFireCluster.acceptLicense().start();
 		gemFireCluster.gfsh(
