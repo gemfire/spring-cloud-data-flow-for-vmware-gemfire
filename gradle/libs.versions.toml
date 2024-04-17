@@ -1,6 +1,6 @@
 [versions]
 awaitilityVersion = "4.2.1"
-gemfireTestcontainersVersion = "2.0.1"
+gemfireTestcontainersVersion = "2.0.0"
 hibernateVersion = "6.2.5.Final"
 jacksonVersion = "2.13.5"
 javaCfenvBootVersion = "2.4.2"
