@@ -21,7 +21,7 @@ repositories {
       username = property("gemfireRepoUsername") as String
       password = property("gemfireRepoPassword") as String
     }
-    url = uri("https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire")
+    url = uri("https://packages.broadcom.com/artifactory/gemfire")
   }
 }
 
