@@ -2,7 +2,6 @@ import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.libs
 import org.gradle.kotlin.dsl.publishingDetails
-import org.jetbrains.kotlin.gradle.idea.proto.com.google.protobuf.api
 
 plugins {
     id("java-library")
