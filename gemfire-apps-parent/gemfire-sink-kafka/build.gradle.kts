@@ -1,3 +1,6 @@
+import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.kotlin.dsl.libs
+import org.gradle.kotlin.dsl.publishingDetails
 import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 
 plugins {
@@ -10,6 +13,7 @@ plugins {
   id("gemfire.spring.cloud.metadata-generator")
   id("gemfire.spring.cloud.metadata-docs")
   id("commercial-repositories")
+  id("gemfire-repos-plugin")
 }
 
 group = "com.vmware.gemfire.spring.cloud.stream.app"

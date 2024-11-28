@@ -1,4 +1,8 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import okhttp3.CertificatePinner.Companion.pin
+import org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.conflicts.DefaultCapabilitiesConflictHandler.candidate
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.kotlin.dsl.libs
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 buildscript {
@@ -14,6 +18,7 @@ plugins {
   alias(libs.plugins.version.catalog.update)
   alias(libs.plugins.ben.manes.versions)
   id("commercial-repositories")
+  id("gemfire-repos-plugin")
   id("idea")
   id("eclipse")
   id("java")
