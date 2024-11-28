@@ -5,6 +5,7 @@ pluginManagement {
     includeBuild("build-tools/gemfire-cloud-stream-app-metadata-generator")
     includeBuild("build-tools/gemfire-cloud-stream-app-metadata-docs")
     includeBuild("build-tools/publishing")
+    includeBuild("build-tools/convention-plugins")
 }
 
 rootProject.name = "spring-cloud-data-flow-for-vmware-gemfire"
