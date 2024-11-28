@@ -13,7 +13,7 @@ plugins {
   alias(libs.plugins.spring.boot)
   alias(libs.plugins.version.catalog.update)
   alias(libs.plugins.ben.manes.versions)
-  id("gemfire-repos-plugin")
+  id("commercial-repositories")
   id("idea")
   id("eclipse")
   id("java")

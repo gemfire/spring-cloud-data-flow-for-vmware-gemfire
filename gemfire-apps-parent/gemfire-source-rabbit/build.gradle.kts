@@ -9,7 +9,7 @@ plugins {
   id("gemfire-repo-artifact-publishing")
   id("gemfire.spring.cloud.metadata-generator")
   id("gemfire.spring.cloud.metadata-docs")
-  id("gemfire-repos-plugin")
+  id("commercial-repositories")
 }
 
 group = "com.vmware.gemfire.spring.cloud.stream.app"
