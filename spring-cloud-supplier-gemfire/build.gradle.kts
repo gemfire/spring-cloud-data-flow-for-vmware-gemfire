@@ -4,7 +4,7 @@ plugins {
   id("eclipse")
   alias(libs.plugins.lombok)
   id("gemfire-repo-artifact-publishing")
-  id("gemfire-repos-plugin")
+  id("commercial-repositories")
 }
 
 group = "com.vmware.gemfire.spring.cloud"
