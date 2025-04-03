@@ -1,4 +1,10 @@
+/*
+ * Copyright 2025 Broadcom. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import jdk.tools.jlink.resources.plugins
 import okhttp3.CertificatePinner.Companion.pin
 import org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.conflicts.DefaultCapabilitiesConflictHandler.candidate
 import org.gradle.jvm.toolchain.JavaLanguageVersion
@@ -22,6 +28,13 @@ plugins {
   id("idea")
   id("eclipse")
   id("java")
+  id("gemfire-artifactory")
+}
+
+// Suppress warning from gemfire-artifactory plugin. We need the module to be on this project in order to get buildInfo
+// uploaded, but there is no artifact on the root project, so we skip that part.
+tasks.artifactoryPublish {
+  skip = true
 }
 
 java {

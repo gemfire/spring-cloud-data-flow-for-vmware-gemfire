@@ -1,3 +1,11 @@
+/*
+ * Copyright 2025 Broadcom. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import com.sun.beans.introspect.PropertyInfo.Name.description
+import jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyle.title
+import jdk.tools.jlink.resources.plugins
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.libs
@@ -14,7 +22,8 @@ plugins {
     id("gemfire.spring.cloud.metadata-generator")
     id("gemfire.spring.cloud.metadata-docs")
     id("commercial-repositories")
-  id("gemfire-repos-plugin")
+    id("gemfire-repos-plugin")
+    id("gemfire-artifactory")
 }
 
 group = "com.vmware.gemfire.spring.cloud.stream.app"
@@ -22,12 +31,12 @@ group = "com.vmware.gemfire.spring.cloud.stream.app"
 java {
     withJavadocJar()
     withSourcesJar()
-    toolchain{ languageVersion.set(JavaLanguageVersion.of(8))}
+    toolchain { languageVersion.set(JavaLanguageVersion.of(8)) }
 }
 
 tasks.named<Javadoc>("javadoc") {
     title = "Spring Cloud Dataflow Sink for VMware GemFire Java API Reference"
-    isFailOnError=false
+    isFailOnError = false
 }
 val projectArchiveName = "gemfire-sink-rabbit"
 
@@ -87,9 +96,13 @@ tasks.named<BootBuildImage>("bootBuildImage") {
     builder = "paketobuildpacks/builder-jammy-base:latest"
     val dockerUsername = project.properties["dockerUserName"] ?: "gemfire"
     imageName = "$dockerUsername/$projectArchiveName:${project.version}"
-    environment(mapOf("BP_JVM_VERSION" to "8",
-        "BPE_APPEND_JDK_JAVA_OPTIONS" to "-Dfile.encoding=UTF-8",
-        "BPE_APPEND_JDK_JAVA_OPTIONS" to "-Dsun.jnu.encoding",
-        "BPE_LC_ALL" to "en_US.utf8",
-        "BPE_LANG" to "en_US.utf8"))
+    environment(
+        mapOf(
+            "BP_JVM_VERSION" to "8",
+            "BPE_APPEND_JDK_JAVA_OPTIONS" to "-Dfile.encoding=UTF-8",
+            "BPE_APPEND_JDK_JAVA_OPTIONS" to "-Dsun.jnu.encoding",
+            "BPE_LC_ALL" to "en_US.utf8",
+            "BPE_LANG" to "en_US.utf8"
+        )
+    )
 }

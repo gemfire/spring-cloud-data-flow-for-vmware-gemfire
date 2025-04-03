@@ -1,3 +1,11 @@
+/*
+ * Copyright 2025 Broadcom. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import com.sun.beans.introspect.PropertyInfo.Name.description
+import jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyle.title
+import jdk.tools.jlink.resources.plugins
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.libs
 import org.gradle.kotlin.dsl.publishingDetails
@@ -14,6 +22,7 @@ plugins {
   id("gemfire.spring.cloud.metadata-docs")
   id("commercial-repositories")
   id("gemfire-repos-plugin")
+  id("gemfire-artifactory")
 }
 
 group = "com.vmware.gemfire.spring.cloud.stream.app"

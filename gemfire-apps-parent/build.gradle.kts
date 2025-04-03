@@ -1,3 +1,11 @@
+/*
+ * Copyright 2025 Broadcom. All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import com.sun.beans.introspect.PropertyInfo.Name.description
+import jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyle.title
+import jdk.tools.jlink.resources.plugins
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.libs
 import org.gradle.kotlin.dsl.publishingDetails
@@ -9,7 +17,8 @@ plugins {
     alias(libs.plugins.lombok)
     id("gemfire-repo-artifact-publishing")
     id("commercial-repositories")
-  id("gemfire-repos-plugin")
+    id("gemfire-repos-plugin")
+    id("gemfire-artifactory")
 }
 
 group = "com.vmware.gemfire.spring.cloud.stream.app"
@@ -21,12 +30,12 @@ configurations.create("compileJava").apply {
 java {
     withJavadocJar()
     withSourcesJar()
-    toolchain{ languageVersion.set(JavaLanguageVersion.of(8))}
+    toolchain { languageVersion.set(JavaLanguageVersion.of(8)) }
 }
 
 tasks.named<Javadoc>("javadoc") {
     title = "Spring Cloud Dataflow Sink for VMware GemFire Java API Reference"
-    isFailOnError=false
+    isFailOnError = false
 }
 
 publishingDetails {
