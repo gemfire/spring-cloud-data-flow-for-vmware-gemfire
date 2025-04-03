@@ -3,9 +3,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import com.sun.beans.introspect.PropertyInfo.Name.description
-import jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyle.title
-import jdk.tools.jlink.resources.plugins
 import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.exclude
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.libs
