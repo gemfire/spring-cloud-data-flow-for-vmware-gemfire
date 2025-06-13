@@ -27,7 +27,7 @@ public class GemfireSinkKafkaApplicationTests {
 
   @Container
   static final KafkaContainer kafka = new KafkaContainer(
-      DockerImageName.parse("confluentinc/cp-kafka:latest")
+      DockerImageName.parse("confluentinc/cp-kafka:7.9.1")
   );
 
   @DynamicPropertySource
@@ -38,7 +38,7 @@ public class GemfireSinkKafkaApplicationTests {
   @BeforeAll
   static void setup() throws IOException {
 
-    gemFireCluster = new GemFireCluster("gemfire/gemfire:9.15.15", 1, 1);
+    gemFireCluster = new GemFireCluster("gemfire/gemfire:9.15", 1, 1);
 
     gemFireCluster.acceptLicense().start();
     gemFireCluster.gfsh(
