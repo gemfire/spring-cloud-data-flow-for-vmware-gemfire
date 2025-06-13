@@ -1,5 +1,5 @@
 /*
- * Copyright 2023-2024 Broadcom. All rights reserved.
+ * Copyright 2023-2025 Broadcom. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -24,7 +24,7 @@ public class GemfireSourceRabbitApplicationTests {
 
   @BeforeAll
   static void setup() throws IOException {
-    gemFireCluster = new GemFireCluster("gemfire/gemfire:9.15.11",1,1);
+    gemFireCluster = new GemFireCluster("gemfire/gemfire:9.15.15", 1, 1);
 
     gemFireCluster.acceptLicense().start();
 

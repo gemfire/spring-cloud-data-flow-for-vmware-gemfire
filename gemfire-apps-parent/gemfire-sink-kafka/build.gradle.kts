@@ -3,10 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.kotlin.dsl.libs
-import org.gradle.kotlin.dsl.publishingDetails
-import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
+import groovyjarjarantlr.build.ANTLR.jarName
 
 plugins {
   id("java-library")
@@ -78,13 +75,9 @@ dependencies {
   testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
-tasks.named<BootBuildImage>("bootBuildImage") {
-  builder = "paketobuildpacks/builder-jammy-base:latest"
-  val dockerUsername = project.properties["dockerUserName"] ?: "gemfire"
-  imageName = "$dockerUsername/$projectArchiveName:${project.version}"
-  environment(mapOf("BP_JVM_VERSION" to "8",
-    "BPE_APPEND_JDK_JAVA_OPTIONS" to "-Dfile.encoding=UTF-8",
-    "BPE_APPEND_JDK_JAVA_OPTIONS" to "-Dsun.jnu.encoding",
-    "BPE_LC_ALL" to "en_US.utf8",
-    "BPE_LANG" to "en_US.utf8"))
+tasks.register<Exec>("buildApplicationImage") {
+  dependsOn(tasks.getByName("bootJar"))
+  workingDir = file("$rootDir/scripts")
+  jarName = tasks.getByName("bootJar").outputs.files.singleFile.absolutePath
+  commandLine("bash", "./build-apps.sh", "gemfire/$projectArchiveName", "${project.version}", "$jarName")
 }

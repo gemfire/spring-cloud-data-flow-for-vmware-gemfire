@@ -10,14 +10,6 @@ import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.libs
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
-buildscript {
-  repositories {
-    mavenCentral()
-    gradlePluginPortal()
-    maven { url = uri("https://repo.spring.io/plugins-release") }
-  }
-}
-
 plugins {
   alias(libs.plugins.spring.boot)
   alias(libs.plugins.version.catalog.update)
@@ -75,13 +67,18 @@ fun isPatch(candidateVersion: String, currentVersion: String): Boolean {
   val candidateSplit = candidateVersion.split(".")
   val currentSplit = currentVersion.split(".")
 
-  if (candidateSplit.size == currentSplit.size && currentSplit.size == 3) {
-    if (candidateSplit[0] != currentSplit[0]) {
-      return false
+  if (currentSplit.size == 3) {
+    if (candidateSplit.size == currentSplit.size) {
+      if (candidateSplit[0] != currentSplit[0]) {
+        return false
+      }
+      if (candidateSplit[1] != currentSplit[1]) {
+        return false
+      }
+      return true
     }
-    if (candidateSplit[1] != currentSplit[1]) {
-      return false
-    }
+  } else {
+    return false
   }
-  return true
+  return false
 }
