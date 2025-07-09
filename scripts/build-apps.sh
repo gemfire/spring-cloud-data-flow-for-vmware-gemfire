@@ -35,5 +35,5 @@ for PLATFORM in "${PLATFORMS[@]}"; do
     --env BPE_LC_ALL=en_US.utf8 \
     --env BPE_LANG=en_US.utf8
 
-  podman push "${IMAGE_NAME}:${TAG}"
+  docker push "${IMAGE_NAME}:${TAG}"
 done
