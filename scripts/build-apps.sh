@@ -25,15 +25,18 @@ for PLATFORM in "${PLATFORMS[@]}"; do
   TAG="${VERSION}-${ARCH}"
   echo "🚀 Building ${IMAGE_NAME}:${TAG} for ${PLATFORM}..."
 
-  pack build "${IMAGE_NAME}:${TAG}" \
-    --path "$ARTIFACT" \
-    --builder "$BUILDER" \
-    --platform "$PLATFORM" \
-    --env BP_JVM_VERSION=8 \
-    --env BPE_APPEND_JDK_JAVA_OPTIONS=-Dfile.encoding=UTF-8 \
-    --env BPE_APPEND_JDK_JAVA_OPTIONS=-Dsun.jnu.encoding \
-    --env BPE_LC_ALL=en_US.utf8 \
-    --env BPE_LANG=en_US.utf8
+  PACK_CMD="pack build \"${IMAGE_NAME}:${TAG}\" \
+      --path \"$ARTIFACT\" \
+      --builder \"$BUILDER\" \
+      --platform \"$PLATFORM\" \
+      --env BP_JVM_VERSION=8 \
+      --env BPE_APPEND_JDK_JAVA_OPTIONS=-Dfile.encoding=UTF-8 \
+      --env BPE_APPEND_JDK_JAVA_OPTIONS=-Dsun.jnu.encoding \
+      --env BPE_LC_ALL=en_US.utf8 \
+      --env BPE_LANG=en_US.utf8"
+
+    echo "📦 Running: $PACK_CMD"
+    eval "$PACK_CMD"
 
   docker push "${IMAGE_NAME}:${TAG}"
 done

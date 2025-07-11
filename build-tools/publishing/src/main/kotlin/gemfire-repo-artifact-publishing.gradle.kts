@@ -1,5 +1,5 @@
 /*
- * Copyright (c) VMware, Inc. 2023. All rights reserved.
+ * Copyright 2023-2025 Broadcom. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -15,7 +15,7 @@ plugins {
 project.ext.set("constrainVersionInBom", true)
 
 val license = """
-  Copyright (c) VMware, Inc. 2023-2024. All rights reserved.
+  Copyright (c) VMware, Inc. 2023-2025. All rights reserved.
   SPDX-License-Identifier: Apache-2.0
   """
 
@@ -47,10 +47,10 @@ publishing {
             )
           }
           scm {
-            connection = "scm:git:https://github.com/gemfire/spring-integration-for-vmware-gemfire.git"
+            connection = "scm:git:https://github.com/gemfire/spring-cloud-data-flow-for-vmware-gemfire.git"
             developerConnection =
-              "scm:git:https://github.com/gemfire/spring-integration-for-vmware-gemfire.git"
-            url = "https://github.com/gemfire/spring-integration-for-vmware-gemfire"
+              "scm:git:https://github.com/gemfire/spring-cloud-data-flow-for-vmware-gemfire.git"
+            url = "https://github.com/gemfire/spring-cloud-data-flow-for-vmware-gemfire.git"
           }
         }
       }
@@ -100,13 +100,3 @@ gradle.taskGraph.whenReady {
     }
   }
 }
-
-//tasks.named<BootBuildImage>("bootBuildImage") {
-//  builder = "paketobuildpacks/builder-jammy-base:latest"
-//  imageName = "udo774/gemfire-sink-kafka:${project.version}"
-//  environment(mapOf("BP_JVM_VERSION" to "8",
-//    "BPE_APPEND_JDK_JAVA_OPTIONS" to "-Dfile.encoding=UTF-8",
-//    "BPE_APPEND_JDK_JAVA_OPTIONS" to "-Dsun.jnu.encoding",
-//    "BPE_LC_ALL" to "en_US.utf8",
-//    "BPE_LANG" to "en_US.utf8"))
-//}

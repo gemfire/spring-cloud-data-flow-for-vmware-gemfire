@@ -18,7 +18,6 @@ pluginManagement {
     val repositoryConfigFilePath = providers.gradleProperty("spring.gemfire.repositories").getOrElse(
       providers.environmentVariable("HOME").get() + "/.gradle/gradleRepositories.json"
     )
-
     val jsonString = File(repositoryConfigFilePath).readText(Charsets.UTF_8)
     val repositories = groovy.json.JsonSlurper().parseText(jsonString) as Map<*, *>
     (repositories["repositories"] as List<*>).filterNotNull().map { entry -> entry as Map<*, *> }
