@@ -32,7 +32,7 @@ publishing {
     create<MavenPublication>("maven") {
       afterEvaluate {
         from(components["java"])
-        groupId = "com.vmware.gemfire"
+        groupId = project.group as String
         artifactId = publishingDetails.artifactName.get()
         pom {
           name = publishingDetails.longName.get()
@@ -51,24 +51,6 @@ publishing {
             developerConnection =
               "scm:git:https://github.com/gemfire/spring-cloud-data-flow-for-vmware-gemfire.git"
             url = "https://github.com/gemfire/spring-cloud-data-flow-for-vmware-gemfire.git"
-          }
-        }
-      }
-      repositories {
-        maven {
-          val mavenPushRepositoryURL = project.findProperty("mavenPushRepository")
-          if (mavenPushRepositoryURL != null) {
-            url = uri(mavenPushRepositoryURL)
-            if (url.toString().startsWith("http") || url.toString().startsWith("sftp")) {
-              // Username / password credentials are only supported for http, https, and sftp repos.
-              // See the Gradle documentation on Repository Types for more information.
-              credentials {
-                username = project.findProperty("gemfirePublishRepoUsername").toString()
-                password = project.findProperty("gemfirePublishRepoPassword").toString()
-              }
-            }
-          } else {
-            println("WARNING: No push repository configured")
           }
         }
       }

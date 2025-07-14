@@ -16,7 +16,7 @@ fi
 IMAGE_NAME="$1"
 VERSION="$2"
 ARTIFACT="$3"
-BUILDER="paketobuildpacks/builder-jammy-base:latest"
+BUILDER="paketobuildpacks/builder-noble-java-tiny:latest"
 PLATFORMS=("linux/amd64" "linux/arm64")
 
 # Build and push each platform-specific image
