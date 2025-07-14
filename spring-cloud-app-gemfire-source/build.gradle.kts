@@ -18,7 +18,7 @@ plugins {
   id("gemfire-artifactory")
 }
 
-group = "com.vmware.gemfire"
+group = "com.vmware.gemfire.spring.cloud"
 
 configurations.create("compileJava").apply {
   extendsFrom(configurations.annotationProcessor.get())
